@@ -1,0 +1,39 @@
+#ifndef SOUND_H
+#define SOUND_H
+
+#include "sound/e64_sound.h"
+
+
+/* Indices into demo_sound_bank, the bank handed to sound_init. */
+enum {
+
+	SOUND_FLAG_FLAPPING,
+
+	SOUND_FOOTSTEP_1,
+	SOUND_FOOTSTEP_2,
+	SOUND_FOOTSTEP_3,
+	SOUND_FOOTSTEP_4,
+
+	SOUND_ROLL_1,
+	SOUND_ROLL_2,
+
+	SOUND_SWIM_STROKE_LIGHT_1,
+	SOUND_SWIM_STROKE_LIGHT_2,
+	SOUND_SWIM_STROKE_HEAVY_1,
+	SOUND_SWIM_STROKE_HEAVY_2,
+	SOUND_SWIM_SPLASH_1,
+	SOUND_SWIM_SPLASH_2,
+
+	SOUND_THUD_1,
+	SOUND_THUD_2,
+	SOUND_THUD_3,
+	SOUND_THUD_4,
+
+	SOUND_COUNT,
+
+};
+
+extern const SoundDef demo_sound_bank[SOUND_COUNT];
+
+
+#endif
