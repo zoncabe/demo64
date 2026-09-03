@@ -1,8 +1,8 @@
 #ifndef GAMEPLAY_UI_H
 #define GAMEPLAY_UI_H
 
-#include "scene2d/e64_scene2d.h"
-#include "ui/e64_ui_animation.h"
+#include ENGINE_HEADER(scene2d, scene2d)
+#include ENGINE_HEADER(ui, ui_animation)
 
 
 extern const Scene2DDef gameplay_scene2d;

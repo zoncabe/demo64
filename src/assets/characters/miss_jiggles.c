@@ -1,4 +1,4 @@
-#include "character/e64_character.h"
+#include ENGINE_HEADER(character, character)
 #include "assets/sound/sound.h"
 #include "assets/characters/miss_jiggles.h"
 
@@ -293,12 +293,12 @@ const WeaponDef weapon_bow = {
 	.type          = WEAPON_TYPE_BALLISTIC,
 	.magazine_size = 1,
 	.max_integrity = 100,
-	.holster_position = {{ 0.28f, -10.78f, -12.39f }},
-	.holster_rotation = {{ -0.5719f, 0.3900f, -0.6504f, -0.3127f }},
+	.holster_position = { .x = 0.28f, .y = -10.78f, .z = -12.39f },
+	.holster_rotation = { .x = -0.5719f, .y = 0.3900f, .z = -0.6504f, .w = -0.3127f },
 	/* Grip past the hand bone's tail, spun 55 degrees about the bow's own
 	   long axis. Both numbers measured on console. */
-	.holding_position = {{ -5.0f, 7.0f, 0.0f }},
-	.holding_rotation = {{ 0.0f, 0.4617f, 0.0f, 0.8870f }},
+	.holding_position = { .x = -5.0f, .y = 7.0f, .z = 0.0f },
+	.holding_rotation = { .x = 0.0f, .y = 0.4617f, .z = 0.0f, .w = 0.8870f },
 };
 
 

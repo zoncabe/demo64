@@ -1,6 +1,7 @@
 #include <libdragon.h>
 
-#include "game/e64_game.h"
+#include ENGINE_HEADER(game, game)
+#include ENGINE_HEADER(debug, debug)
 #include "assets/graphics/sprites.h"
 #include "assets/graphics/fonts.h"
 #include "assets/sound/sound.h"
@@ -14,6 +15,7 @@ int main()
     debug_init_usblog();
 
     game_init();
+    debugUI_init();
 
     sprite_init(demo_sprite_paths, SPRITE_COUNT);
     font_init(demo_fonts, FONT_COUNT);

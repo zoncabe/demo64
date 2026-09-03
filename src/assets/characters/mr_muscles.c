@@ -1,4 +1,4 @@
-#include "character/e64_character.h"
+#include ENGINE_HEADER(character, character)
 #include "assets/sound/sound.h"
 #include "assets/characters/mr_muscles.h"
 
@@ -250,9 +250,9 @@ const WeaponDef weapon_ak47 = {
 	   the slot. In this bone's axes -X is the right side, +Y is up toward
 	   the neck and -Z is behind: raised from the old spot to sit against
 	   the shoulder blade instead of the middle of the back. */
-	.holster_position = {{ -11.5f, 11.0f, -15.5f }},
-	.holster_rotation = {{ -0.6255f, -0.1841f, -0.7357f, 0.1833f }},
-	.holding_rotation = {{ 0.0f, 0.0f, 0.0f, 1.0f }},
+	.holster_position = { .x = -11.5f, .y = 11.0f, .z = -15.5f },
+	.holster_rotation = { .x = -0.6255f, .y = -0.1841f, .z = -0.7357f, .w = 0.1833f },
+	.holding_rotation = { .x = 0.0f, .y = 0.0f, .z = 0.0f, .w = 1.0f },
 };
 
 const WeaponDef weapon_m1911 = {
@@ -263,9 +263,9 @@ const WeaponDef weapon_m1911 = {
 	.type          = WEAPON_TYPE_HITSCAN,
 	.magazine_size = 7,
 	.max_integrity = 100,
-	.holster_position = {{ -22.0f, -3.93f, 0.2f }},
-	.holster_rotation = {{ 0.9995f, 0.0f, 0.0f, 0.0316f }},
-	.holding_rotation = {{ 0.0f, 0.0f, 0.0f, 1.0f }},
+	.holster_position = { .x = -22.0f, .y = -3.93f, .z = 0.2f },
+	.holster_rotation = { .x = 0.9995f, .y = 0.0f, .z = 0.0f, .w = 0.0316f },
+	.holding_rotation = { .x = 0.0f, .y = 0.0f, .z = 0.0f, .w = 1.0f },
 };
 
 const WeaponDef weapon_knife = {
@@ -276,9 +276,9 @@ const WeaponDef weapon_knife = {
 	.type          = WEAPON_TYPE_MELEE,
 	.magazine_size = 0,
 	.max_integrity = 100,
-	.holster_position = {{ 8.74f, -8.38f, 0.59f }},
-	.holster_rotation = {{ 0.0130f, -0.9991f, 0.0390f, 0.0066f }},
-	.holding_rotation = {{ 0.0f, 0.0f, 0.0f, 1.0f }},
+	.holster_position = { .x = 8.74f, .y = -8.38f, .z = 0.59f },
+	.holster_rotation = { .x = 0.0130f, .y = -0.9991f, .z = 0.0390f, .w = 0.0066f },
+	.holding_rotation = { .x = 0.0f, .y = 0.0f, .z = 0.0f, .w = 1.0f },
 };
 
 const CharacterAnimationSettings mr_muscles_animation_settings = {

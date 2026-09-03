@@ -10,8 +10,8 @@
 */
 #include <fmath.h>
 
-#include "physics/math/e64_math_common.h"
-#include "control/e64_camera_control.h"
+#include ENGINE_HEADER(physics/math, math_common)
+#include ENGINE_HEADER(control, camera_control)
 #include "control/controller.h"
 #include "camera/camera.h"
 
@@ -21,8 +21,8 @@ const CameraDef camera_def = {
 	.type = CAMERA_TYPE_SPRING_ARM,
 
 	.field_of_view = 60.0f,
-	.near_clipping = 50.0f,
-	.far_clipping  = 5000.0f,
+	.near_clipping = 100.0f,
+	.far_clipping  = 8000.0f,
 
 	.spring_arm = {
 		.arm_length   = 200.0f,

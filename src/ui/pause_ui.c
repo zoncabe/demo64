@@ -2,8 +2,8 @@
 
 #include "assets/graphics/fonts.h"
 #include "assets/graphics/sprites.h"
-#include "graphics/e64_shapes.h"
-#include "render/e64_render.h"
+#include ENGINE_HEADER(graphics, shapes)
+#include ENGINE_HEADER(render, render)
 #include "ui/pause_ui.h"
 
 

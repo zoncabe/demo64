@@ -1,7 +1,7 @@
 #ifndef SPRITES_H
 #define SPRITES_H
 
-#include "graphics/e64_sprites.h"
+#include ENGINE_HEADER(graphics, sprites)
 
 
 /* Indices into demo_sprite_paths, the table handed to sprite_init. */

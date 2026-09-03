@@ -3,10 +3,12 @@
 
 /* The pool as a volume: footprint of the water plane, from the basin floor
    up to the resting surface. Sensor, so it reports who is inside without
-   colliding; buoyancy reads its overlaps once the water binds to it. */
+   colliding; buoyancy reads its overlaps once the water binds to it. Local
+   to the body, in metres: the plane is authored around its own origin, so
+   the box hangs from z 0 and the placement is what sinks it in the basin. */
 static const PhysicsShapeDef pool_shapes[] = {
 	{ .type = SHAPE_BOX, .box = {
-		.tx     = { .position = { -5.0f, 12.5f, -1.45f } },
+		.tx     = { .position = { 0.5357f, 0.2908f, -0.975f } },
 		.e      = { 15.0f, 7.5f, 0.975f },
 		.sensor = SENSOR_VOLUME,
 	}},

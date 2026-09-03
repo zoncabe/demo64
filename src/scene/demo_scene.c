@@ -1,4 +1,4 @@
-#include "scene3d/e64_scene3d.h"
+#include ENGINE_HEADER(scene3d, scene3d)
 #include "scene/scene.h"
 #include "camera/camera.h"
 #include "assets/characters/miss_jiggles.h"
@@ -24,19 +24,19 @@ static const LightDef demo_light = {
 	.source = {
 		{ .type  = LIGHT_POINT,
 		  .color = {255, 255, 255, 0xFF},
-		  .point = { .position = {{  1300.0f, 0.0f, 869.0f }}, .size = 2500.0f } },
+		  .point = { .position = { .x =  1300.0f, .y = 0.0f, .z = 869.0f }, .size = 2500.0f } },
 
 		{ .type  = LIGHT_POINT,
 		  .color = {255, 255, 255, 0xFF},
-		  .point = { .position = {{ -1300.0f, 0.0f, 869.0f }}, .size = 2500.0f } },
+		  .point = { .position = { .x = -1300.0f, .y = 0.0f, .z = 869.0f }, .size = 2500.0f } },
 	},
 };
 
 static const FogDef demo_fog = {
 
 	.color   = {70, 80, 100, 0xFF},
-	.near    = 400.0f,
-	.far     = 3500.0f,
+	.near    = 800.0f,
+	.far     = 4500.0f,
 	.enabled = true,
 };
 
@@ -75,9 +75,9 @@ static Scene3DPrefab demo_prefabs[] = {
 	*/
 
 	/* Last on purpose: the water is transparent and z-writes, so it has to
-	   blend over everything already drawn. Coordinates are baked in the
-	   model, world placement included. */
-	{ &pool },
+	   blend over everything already drawn. The model is authored centred on
+	   its origin, so the placement is what puts the plane over the basin. */
+	{ &pool, {-553.57f, 1220.92f, -50.0f} },
 };
 
 

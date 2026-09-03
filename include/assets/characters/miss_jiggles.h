@@ -1,10 +1,10 @@
 #ifndef MISS_JIGGLES_H
 #define MISS_JIGGLES_H
 
-#include "character/e64_character.h"
-#include "prefab/e64_prefab.h"
+#include ENGINE_HEADER(character, character)
+#include ENGINE_HEADER(prefab, prefab)
 
-#define miss_jiggles_model "rom:/models/miss_jiggles.t3dm"
+#define miss_jiggles_model "rom:/models/miss_jiggles" ENGINE_MODEL_EXT
 
 /* Soft-body driven bones present in the rig. */
 #define MISS_JIGGLES_BONE_BREAST_L "Breast.L"

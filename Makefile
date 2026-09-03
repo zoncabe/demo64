@@ -1,19 +1,36 @@
 BUILD_DIR = build
 
-# Where engine64 lives. This project never writes inside it: the engine
+# Which engine builds the demo: engine64 (tiny3d) or volcano64 (magma). The
+# two differ in header prefix, model format and converter; include/engine.h
+# resolves the code side from ENGINE_VOLCANO64. Switching needs a clean
+# build: make does not see the flag change in the objects.
+ENGINE ?= volcano64
+
+# Where the engine lives. This project never writes inside it: the engine
 # sources are compiled from here into this project's build directory.
-ENGINE_DIR ?= ../engine64
+ENGINE_DIR ?= ../$(ENGINE)
 
 include $(N64_INST)/include/n64.mk
+
+ifeq ($(ENGINE),engine64)
 include $(T3D_INST)/t3d.mk
+MODEL_EXT = t3dm
+else
+N64_CFLAGS += -DENGINE_VOLCANO64
+MODEL_EXT = model
+# The engine's own model importer (host tool, built on demand).
+MODEL_IMPORTER = $(ENGINE_DIR)/tools/model_importer/gltf_to_model
+endif
 
 # include/ goes first on purpose: a header of this project shadows the engine
 # one of the same name. $(ENGINE_DIR)/src is there to pull an engine unit in
-# with <module/file.c> for a partial override.
-N64_CFLAGS += -std=gnu2x -Iinclude -I$(ENGINE_DIR)/include -I$(ENGINE_DIR)/src
+# with <module/file.c> for a partial override. engine.h is forced into every
+# unit so the engine header macro is always defined.
+N64_CFLAGS += -std=gnu2x -Iinclude -I$(ENGINE_DIR)/include -I$(ENGINE_DIR)/src \
+              -include include/engine.h
 
 # --asset-path: the importer looks every material's texture up by FILE NAME,
-# recursively, under this path, and builds the path left in the .t3dm by
+# recursively, under this path, and builds the path left in the model by
 # replacing this prefix with "rom:/". A PNG in assets/textures/x.png gives
 # rom:/textures/x.sprite, which is where this Makefile leaves the sprite.
 GLTF_FLAGS = '--base-scale=1' '--asset-path=assets'
@@ -48,7 +65,7 @@ assets_col = filesystem/collision/room.collision \
              filesystem/collision/water.collision
 
 assets_conv = $(addprefix filesystem/textures/,$(notdir $(assets_png:%.png=%.sprite))) \
-              $(addprefix filesystem/models/,$(notdir $(assets_gltf:%.glb=%.t3dm))) \
+              $(addprefix filesystem/models/,$(notdir $(assets_gltf:%.glb=%.$(MODEL_EXT)))) \
               $(assets_col) \
               $(addprefix filesystem/fonts/,$(notdir $(assets_ttf:%.ttf=%.font64))) \
               $(addprefix filesystem/audio/,$(notdir $(assets_wav:%.wav=%.wav64)))
@@ -65,6 +82,15 @@ filesystem/models/%.t3dm: assets/models/%.glb
 	@mkdir -p $(dir $@)
 	@echo "    [T3D-MODEL] $@"
 	$(T3D_GLTF_TO_3D) $(GLTF_FLAGS) "$<" $@
+	$(N64_BINDIR)/mkasset -c 2 -o filesystem/models $@
+
+$(MODEL_IMPORTER):
+	$(MAKE) -C $(ENGINE_DIR)/tools/model_importer
+
+filesystem/models/%.model: assets/models/%.glb $(MODEL_IMPORTER)
+	@mkdir -p $(dir $@)
+	@echo "    [MODEL] $@"
+	$(MODEL_IMPORTER) $(GLTF_FLAGS) "$<" $@
 	$(N64_BINDIR)/mkasset -c 2 -o filesystem/models $@
 
 # The importer comes from the engine and is compiled into build/, the only

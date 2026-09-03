@@ -1,10 +1,10 @@
 #ifndef ASSETS_ROOM_H
 #define ASSETS_ROOM_H
 
-#include "entity/e64_entity.h"
-#include "prefab/e64_prefab.h"
+#include ENGINE_HEADER(entity, entity)
+#include ENGINE_HEADER(prefab, prefab)
 
-#define room_model "rom:/models/room.t3dm"
+#define room_model "rom:/models/room" ENGINE_MODEL_EXT
 
 extern const EntityColliderDef room_collider;
 

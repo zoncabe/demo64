@@ -1,7 +1,7 @@
 #include <libdragon.h>
 
-#include "graphics/e64_shapes.h"
-#include "render/e64_render.h"
+#include ENGINE_HEADER(graphics, shapes)
+#include ENGINE_HEADER(render, render)
 #include "ui/gameplay_ui.h"
 
 

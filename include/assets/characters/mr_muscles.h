@@ -1,11 +1,11 @@
 #ifndef MR_MUSCLES_H
 #define MR_MUSCLES_H
 
-#include "character/e64_character.h"
-#include "prefab/e64_prefab.h"
+#include ENGINE_HEADER(character, character)
+#include ENGINE_HEADER(prefab, prefab)
 
-#define mr_muscles_model "rom:/models/mr_muscles.t3dm"
-#define gorilla_model "rom:/models/gorilla.t3dm"
+#define mr_muscles_model "rom:/models/mr_muscles" ENGINE_MODEL_EXT
+#define gorilla_model "rom:/models/gorilla" ENGINE_MODEL_EXT
 
 
 typedef enum {

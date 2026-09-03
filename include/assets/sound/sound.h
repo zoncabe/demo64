@@ -1,7 +1,7 @@
 #ifndef SOUND_H
 #define SOUND_H
 
-#include "sound/e64_sound.h"
+#include ENGINE_HEADER(sound, sound)
 
 
 /* Indices into demo_sound_bank, the bank handed to sound_init. */

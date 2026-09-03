@@ -1,7 +1,7 @@
 #ifndef SCENE_H
 #define SCENE_H
 
-#include "scene3d/e64_scene3d.h"
+#include ENGINE_HEADER(scene3d, scene3d)
 
 extern Scene3DDef demo_scene;
 

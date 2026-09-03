@@ -1,12 +1,12 @@
 #ifndef ASSETS_CRATE_H
 #define ASSETS_CRATE_H
 
-#include "entity/e64_entity.h"
-#include "prefab/e64_prefab.h"
+#include ENGINE_HEADER(entity, entity)
+#include ENGINE_HEADER(prefab, prefab)
 
-#define green_crate_model  "rom:/models/green_box.t3dm"
-#define yellow_crate_model "rom:/models/yellow_box.t3dm"
-#define red_crate_model    "rom:/models/red_box.t3dm"
+#define green_crate_model  "rom:/models/green_box"  ENGINE_MODEL_EXT
+#define yellow_crate_model "rom:/models/yellow_box" ENGINE_MODEL_EXT
+#define red_crate_model    "rom:/models/red_box"    ENGINE_MODEL_EXT
 
 extern const EntityColliderDef green_crate_collider;
 extern const EntityColliderDef yellow_crate_collider;

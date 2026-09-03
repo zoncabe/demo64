@@ -1,12 +1,12 @@
 #ifndef ASSETS_BALL_H
 #define ASSETS_BALL_H
 
-#include "entity/e64_entity.h"
-#include "prefab/e64_prefab.h"
+#include ENGINE_HEADER(entity, entity)
+#include ENGINE_HEADER(prefab, prefab)
 
-#define green_ball_model  "rom:/models/green_sphere.t3dm"
-#define yellow_ball_model "rom:/models/yellow_sphere.t3dm"
-#define red_ball_model    "rom:/models/red_sphere.t3dm"
+#define green_ball_model  "rom:/models/green_sphere"  ENGINE_MODEL_EXT
+#define yellow_ball_model "rom:/models/yellow_sphere" ENGINE_MODEL_EXT
+#define red_ball_model    "rom:/models/red_sphere"    ENGINE_MODEL_EXT
 
 extern const EntityColliderDef green_ball_collider;
 extern const EntityColliderDef yellow_ball_collider;

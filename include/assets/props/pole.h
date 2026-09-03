@@ -1,10 +1,10 @@
 #ifndef ASSETS_POLE_H
 #define ASSETS_POLE_H
 
-#include "entity/e64_entity.h"
-#include "prefab/e64_prefab.h"
+#include ENGINE_HEADER(entity, entity)
+#include ENGINE_HEADER(prefab, prefab)
 
-#define pole_model "rom:/models/pole.t3dm"
+#define pole_model "rom:/models/pole" ENGINE_MODEL_EXT
 
 extern const EntityColliderDef pole_collider;
 

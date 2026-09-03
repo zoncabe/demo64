@@ -6,33 +6,34 @@
 	A state leaves by naming where it goes and playing its way out. Every
 	state with a screen holds the switch back until that animation ends.
 */
-#include "resources/e64_resources.h"
+#include ENGINE_HEADER(resources, resources)
 #include "assets/graphics/sprites.h"
 #include "assets/graphics/fonts.h"
-#include "time/e64_time.h"
-#include "scene3d/e64_scene3d.h"
+#include ENGINE_HEADER(time, time)
+#include ENGINE_HEADER(scene3d, scene3d)
 #include "scene/scene.h"
-#include "render/e64_render.h"
-#include "ui/e64_ui.h"
+#include ENGINE_HEADER(render, render)
+#include ENGINE_HEADER(ui, ui)
 #include "cutscene/intro.h"
 #include "ui/main_menu_ui.h"
 #include "ui/pause_ui.h"
 #include "ui/gameplay_ui.h"
 #include "ui/credits_ui.h"
 #include "ui/stamina_wheel.h"
-#include "menu/e64_menu.h"
-#include "particles/e64_particles.h"
-#include "shaders/e64_water.h"
-#include "player/e64_player.h"
-#include "control/e64_player_control.h"
-#include "control/e64_controller.h"
-#include "control/e64_camera_control.h"
+#include ENGINE_HEADER(menu, menu)
+#include ENGINE_HEADER(particles, particles)
+#include ENGINE_HEADER(shaders, water)
+#include ENGINE_HEADER(player, player)
+#include ENGINE_HEADER(control, player_control)
+#include ENGINE_HEADER(control, controller)
+#include ENGINE_HEADER(control, camera_control)
+#include ENGINE_HEADER(debug, debug)
 #include "control/controller.h"
 #include "camera/camera.h"
-#include "sound/e64_sound.h"
-#include "sound/e64_prefab_sound.h"
-#include "game/e64_game.h"
-#include "viewport/e64_viewport.h"
+#include ENGINE_HEADER(sound, sound)
+#include ENGINE_HEADER(sound, prefab_sound)
+#include ENGINE_HEADER(game, game)
+#include ENGINE_HEADER(viewport, viewport)
 #include "game/game_states.h"
 
 
@@ -158,10 +159,12 @@ static void gameState_updateGameplay(GameContext *ctx)
 
 	particles_update(ctx, fb_index);
 
-	cameraControl_update(&ctx->viewport->camera, &camera_binding, delta);
+	cameraControl_update(&ctx->viewport->camera, &camera_binding, ctx->scene3d, delta);
 	viewport_setPerspectiveCamera();
 
 	ui_update(NULL);
+
+	debugUI_showFPS();
 }
 
 static void gameState_controlGameplay(Game *game)

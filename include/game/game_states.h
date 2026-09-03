@@ -1,7 +1,7 @@
 #ifndef GAME_STATES_H
 #define GAME_STATES_H
 
-#include "game/e64_game_states.h"
+#include ENGINE_HEADER(game, game_states)
 
 
 enum {

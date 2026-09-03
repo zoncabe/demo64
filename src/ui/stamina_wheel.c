@@ -13,19 +13,23 @@
 	pixel whose angle lies past the current progress.
 */
 #include <libdragon.h>
+#ifdef ENGINE_VOLCANO64
+#include ENGINE_HEADER(physics/math, matrix4)
+#else
 #include <t3d/t3d.h>
 #include <t3d/t3dskeleton.h>
+#endif
 
-#include "physics/math/e64_math_common.h"
-#include "physics/math/e64_math_functions.h"
-#include "physics/math/e64_vector3.h"
-#include "time/e64_time.h"
-#include "viewport/e64_viewport.h"
-#include "entity/e64_entity.h"
-#include "character/e64_character.h"
-#include "player/e64_player.h"
-#include "game/e64_game.h"
-#include "particles/e64_particles.h"
+#include ENGINE_HEADER(physics/math, math_common)
+#include ENGINE_HEADER(physics/math, math_functions)
+#include ENGINE_HEADER(physics/math, vector3)
+#include ENGINE_HEADER(time, time)
+#include ENGINE_HEADER(viewport, viewport)
+#include ENGINE_HEADER(entity, entity)
+#include ENGINE_HEADER(character, character)
+#include ENGINE_HEADER(player, player)
+#include ENGINE_HEADER(game, game)
+#include ENGINE_HEADER(particles, particles)
 #include "assets/graphics/sprites.h"
 #include "ui/stamina_wheel.h"
 
@@ -40,7 +44,7 @@
 #define STAMINA_WHEEL_OFFSET_X -18.0f
 #define STAMINA_WHEEL_OFFSET_Z 115.0f
 
-#define STAMINA_WHEEL_SIZE     9
+#define STAMINA_WHEEL_SIZE     6
 #define STAMINA_WHEEL_SCALE    1.0f
 
 /* Color bands over the normalized stamina, and the recovery pulse. Each band
@@ -213,11 +217,38 @@ static void staminaWheel_setInput(Particle *particle, const GameContext *ctx, ui
 		burst = clampf(1.0f - fall, 0.0f, 1.0f);
 	}
 
+	/* The particle backend is tiny3d's tpx: on volcano64 the module keeps its
+	   API but holds no particle to colour and draws nothing. */
+#ifndef ENGINE_VOLCANO64
 	for (int i = 0; i < 3; i++) {
 		float flash = wheel->color[i] + (255.0f - wheel->color[i]) * STAMINA_WHEEL_FLASH_MIX * burst;
 		particle->buffer.s8[0].colorA[i] = (uint8_t)flash;
 	}
+#endif
 
+#ifdef ENGINE_VOLCANO64
+	const Armature *skeleton = &character->animation.main;
+	if (wheel->bone < 0) {
+		wheel->bone = (int16_t)armature_findBone((Armature *)skeleton, STAMINA_WHEEL_BONE);
+		if (wheel->bone < 0) { particle->visible = false; return; }
+	}
+
+	Vector3 bone_position;
+	Quaternion bone_rotation;
+	character_getBonePose(skeleton, wheel->bone, &bone_position, &bone_rotation);
+
+	/* Model space to world with the same matrix the renderer builds for the
+	   mesh, then the offset keeps the wheel clear of the body. Matrix4 is
+	   libdragon's fm_mat4_t, so fgeom does the multiply. */
+	const RenderTransform *transform = &character->entity->transform;
+	Matrix4 world;
+	matrix4_fromSrtEuler(&world, &transform->scale,
+		&(Vector3){deg_to_rad(transform->rotation.x), deg_to_rad(transform->rotation.y), deg_to_rad(transform->rotation.z)},
+		&transform->position);
+
+	fm_vec4_t position;
+	fm_mat4_mul_vec3(&position, &world, &(fm_vec3_t){{bone_position.x, bone_position.y, bone_position.z}});
+#else
 	const T3DSkeleton *skeleton = &character->animation.main;
 	if (wheel->bone < 0) {
 		wheel->bone = (int16_t)t3d_skeleton_find_bone((T3DSkeleton *)skeleton, STAMINA_WHEEL_BONE);
@@ -240,6 +271,7 @@ static void staminaWheel_setInput(Particle *particle, const GameContext *ctx, ui
 
 	T3DVec4 position;
 	t3d_mat4_mul_vec3(&position, &world, &bone_position);
+#endif
 
 	const Camera *camera = &ctx->viewport->camera;
 	Vector3 forward = vector3_difference(&camera->target, &camera->position);
@@ -330,12 +362,15 @@ void stamina_wheel_init(void)
 		};
 
 		/* One particle at the buffer origin; the pair rule leaves B at size 0.
-		   Color goes out as prim color, its alpha is a texture offset. */
+		   Color goes out as prim color, its alpha is a texture offset. tpx
+		   only: on volcano64 the buffer is untyped and never drawn. */
+#ifndef ENGINE_VOLCANO64
 		wheel.buffer.s8[0] = (TPXParticleS8){
 			.posA   = { 0, 0, 0 },
 			.sizeA  = STAMINA_WHEEL_SIZE,
 			.colorA = { 80, 200, 90, 0 },
 		};
+#endif
 
 		wheel_slot[i] = (StaminaWheel){
 			.particle     = particles_add(&wheel),

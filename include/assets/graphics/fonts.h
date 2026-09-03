@@ -1,11 +1,12 @@
 #ifndef FONTS_H
 #define FONTS_H
 
-#include "graphics/e64_font.h"
+#include ENGINE_HEADER(graphics, font)
 
 
-/* Indices into demo_fonts, the table handed to font_init. Slot 0 is
-   reserved (rdpq font ids start at 1); slot 1 doubles as FONT_DEBUG. */
+/* Indices into demo_fonts, the table handed to font_init, and the rdpq font
+   ids. Slot 0 is reserved by rdpq; the engine keeps its own fonts at the
+   top of the range. */
 #define DROID_SANS    1
 #define XOLONIUM_10   2
 #define XOLONIUM_14   3
