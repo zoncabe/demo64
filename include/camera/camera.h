@@ -3,6 +3,6 @@
 
 #include ENGINE_HEADER(camera, camera)
 
-extern const CameraDef camera_def;
+extern const camera::Def camera_def;
 
 #endif

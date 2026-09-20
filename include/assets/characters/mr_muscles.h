@@ -1,8 +1,8 @@
 #ifndef MR_MUSCLES_H
 #define MR_MUSCLES_H
 
-#include ENGINE_HEADER(character, character)
-#include ENGINE_HEADER(prefab, prefab)
+#include ENGINE_HEADER(character3d, character3d)
+#include ENGINE_HEADER(prefab, prefab3d)
 
 #define mr_muscles_model "rom:/models/mr_muscles" ENGINE_MODEL_EXT
 #define gorilla_model "rom:/models/gorilla" ENGINE_MODEL_EXT
@@ -43,11 +43,18 @@ typedef enum {
 
 } MrMusclesSlot;
 
+/* Index order is blend order (see character3d::AnimationNode): the full-body
+   grids first, then the action layers that go on top of whichever grid is
+   driving the body. A jump crouch or a landing under a strafe at full
+   weight is erased if its layer comes before the strafe. */
 typedef enum {
 
 	MM_NODE_IDLE,
 	MM_NODE_IDLE_R,
 	MM_NODE_LOCOMOTION,
+	MM_NODE_STRAFE,
+	MM_NODE_STRAFE_LOCKED,
+	MM_NODE_SWIM,
 	MM_NODE_JUMP_L,
 	MM_NODE_JUMP_R,
 	MM_NODE_JUMP_L_LAYER,
@@ -56,9 +63,6 @@ typedef enum {
 	MM_NODE_LAND_R,
 	MM_NODE_ROLL,
 	MM_NODE_ROLL_LAYER,
-	MM_NODE_STRAFE,
-	MM_NODE_STRAFE_LOCKED,
-	MM_NODE_SWIM,
 	MM_NODE_CLIMB,
 	MM_NODE_CLIMB_LAYER,
 
@@ -148,20 +152,20 @@ typedef enum {
 } MrMusclesAnim;
 
 
-extern const CharacterMovementSettings    mr_muscles_movement_settings;
-extern const CharacterStatsSettings       mr_muscles_stats_settings;
-extern const CharacterColliderSettings    mr_muscles_collider_settings;
+extern const character3d::MovementSettings  mr_muscles_movement_settings;
+extern const character3d::StatsSettings     mr_muscles_stats_settings;
+extern const character3d::ColliderSettings  mr_muscles_collider_settings;
 
 extern const char *const mr_muscles_weapon_meshes[];
-extern const CharacterWeaponsDef mr_muscles_weapons_def;
-extern const CharacterDef mr_muscles_character_def;
+extern const character3d::WeaponsDef mr_muscles_weapons_def;
+extern const character3d::Def mr_muscles_character_def;
 
-extern const WeaponDef weapon_ak47;
-extern const WeaponDef weapon_m1911;
-extern const WeaponDef weapon_knife;
-extern const CharacterAnimationSettings mr_muscles_animation_settings;
-extern const CharacterAnimationDef           mr_muscles_animation_def;
+extern const character3d::WeaponDef weapon_ak47;
+extern const character3d::WeaponDef weapon_m1911;
+extern const character3d::WeaponDef weapon_knife;
+extern const character3d::AnimationSettings mr_muscles_animation_settings;
+extern const character3d::AnimationDef      mr_muscles_animation_def;
 
-extern const Prefab mr_muscles;
+extern const Prefab3D mr_muscles;
 
 #endif

@@ -1,13 +1,13 @@
 #ifndef ASSETS_LADDER_H
 #define ASSETS_LADDER_H
 
-#include ENGINE_HEADER(entity, entity)
-#include ENGINE_HEADER(prefab, prefab)
+#include ENGINE_HEADER(entity, entity3d)
+#include ENGINE_HEADER(prefab, prefab3d)
 
 #define ladder_model "rom:/models/ladder" ENGINE_MODEL_EXT
 
-extern const EntityColliderDef ladder_collider;
+extern const entity3d::ColliderDef ladder_collider;
 
-extern const Prefab ladder;
+extern const Prefab3D ladder;
 
 #endif

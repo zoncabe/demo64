@@ -1,8 +1,8 @@
 #ifndef MISS_JIGGLES_H
 #define MISS_JIGGLES_H
 
-#include ENGINE_HEADER(character, character)
-#include ENGINE_HEADER(prefab, prefab)
+#include ENGINE_HEADER(character3d, character3d)
+#include ENGINE_HEADER(prefab, prefab3d)
 
 #define miss_jiggles_model "rom:/models/miss_jiggles" ENGINE_MODEL_EXT
 
@@ -64,11 +64,22 @@ typedef enum {
 
 } MissJigglesSlot;
 
+/* Index order is blend order (see character3d::AnimationNode): the full-body
+   grids first, then the action layers that go on top of whichever grid is
+   driving the body. A jump crouch or a landing under a strafe at full
+   weight is erased if its layer comes before the strafe. */
 typedef enum {
 
 	MJ_NODE_IDLE,
 	MJ_NODE_IDLE_R,
 	MJ_NODE_LOCOMOTION,
+	MJ_NODE_STRAFE,
+	MJ_NODE_STRAFE_LOCKED,
+	MJ_NODE_BOW_HOLD_IDLE,
+	MJ_NODE_BOW_HOLD,
+	MJ_NODE_BOW_AIM_IDLE,
+	MJ_NODE_BOW_AIM,
+	MJ_NODE_SWIM,
 	MJ_NODE_JUMP_L,
 	MJ_NODE_JUMP_R,
 	MJ_NODE_JUMP_L_LAYER,
@@ -77,13 +88,6 @@ typedef enum {
 	MJ_NODE_LAND_R,
 	MJ_NODE_ROLL,
 	MJ_NODE_ROLL_LAYER,
-	MJ_NODE_STRAFE,
-	MJ_NODE_STRAFE_LOCKED,
-	MJ_NODE_BOW_HOLD_IDLE,
-	MJ_NODE_BOW_HOLD,
-	MJ_NODE_BOW_AIM_IDLE,
-	MJ_NODE_BOW_AIM,
-	MJ_NODE_SWIM,
 	MJ_NODE_CLIMB,
 	MJ_NODE_CLIMB_LAYER,
 
@@ -192,16 +196,16 @@ typedef enum {
 } MissJigglesAnim;
 
 
-extern const CharacterMovementSettings  miss_jiggles_movement_settings;
-extern const CharacterStatsSettings     miss_jiggles_stats_settings;
-extern const CharacterColliderSettings  miss_jiggles_collider_settings;
-extern const char *const               miss_jiggles_weapon_meshes[];
-extern const CharacterWeaponsDef        miss_jiggles_weapons_def;
-extern const WeaponDef                  weapon_bow;
-extern const SpringBonesDef             miss_jiggles_spring_bones[];
-extern const CharacterAnimationSettings miss_jiggles_animation_settings;
-extern const CharacterAnimationDef      miss_jiggles_animation_def;
-extern const CharacterDef               miss_jiggles_character_def;
-extern const Prefab                     miss_jiggles;
+extern const character3d::MovementSettings  miss_jiggles_movement_settings;
+extern const character3d::StatsSettings     miss_jiggles_stats_settings;
+extern const character3d::ColliderSettings  miss_jiggles_collider_settings;
+extern const char *const                    miss_jiggles_weapon_meshes[];
+extern const character3d::WeaponsDef        miss_jiggles_weapons_def;
+extern const character3d::WeaponDef         weapon_bow;
+extern const SpringBonesDef                 miss_jiggles_spring_bones[];
+extern const character3d::AnimationSettings miss_jiggles_animation_settings;
+extern const character3d::AnimationDef      miss_jiggles_animation_def;
+extern const character3d::Def               miss_jiggles_character_def;
+extern const Prefab3D                       miss_jiggles;
 
 #endif
