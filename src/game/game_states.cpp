@@ -411,7 +411,7 @@ const e64::Game::State::Def game_states[STATE_COUNT] = {
 		.onEnter = gameState_enterGameplay2D,
 		.onExit = gameState_exitGameplay2D,
 		.control = gameState_controlGameplay2D,
-		.viewport = SCREEN_320x240,
+		.viewport = SCREEN_640x240,
 	},
 
 	[GAMEPLAY3D_PAUSE] = {

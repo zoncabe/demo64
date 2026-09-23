@@ -100,6 +100,40 @@ Used to credit the SDK this engine is built on.
 Tiny3D project logo -- https://github.com/HailToDodongo/tiny3d
 Used to credit the 3D microcode and library this engine is built on.
 
+## Stages and character sprites
+
+The 2D levels are Kenney's sample screens, each pack copied whole under
+`assets/stages/`. The character sprites are single drawings cut from the
+packs' tile and character sheets, renamed per clip and frame for the animator.
+
+`assets/stages/kenney_pixel-platformer/`
+`assets/sprites/characters/pixel_green/`
+`assets/sprites/characters/pixel_yellow/`
+Pixel Platformer (1.2) by Kenney
+-- https://www.kenney.nl/assets/pixel-platformer
+-- License: CC0 / Public Domain
+
+`assets/stages/kenney_pixel-platformer-industrial-expansion/`
+`assets/sprites/characters/enemies/`
+Pixel Platformer: Industrial Expansion (1.0) by Kenney
+-- https://www.kenney.nl/assets/pixel-platformer-industrial-expansion
+-- License: CC0 / Public Domain
+
+`assets/stages/kenney_pixel-line-platformer/`
+`assets/sprites/characters/line_blue/`
+Pixel Line Platformer (1.0) by Kenney
+-- https://www.kenney.nl/assets/pixel-line-platformer
+-- License: CC0 / Public Domain
+
+`assets/sprites/characters/beige/`
+`assets/sprites/characters/green/`
+`assets/sprites/characters/pink/`
+`assets/sprites/characters/purple/`
+`assets/sprites/characters/yellow/`
+New Platformer Pack (1.1) by Kenney
+-- https://www.kenney.nl/assets/new-platformer-pack
+-- License: CC0 / Public Domain
+
 ## Fonts
 
 `assets/fonts/Xolonium10.ttf`
