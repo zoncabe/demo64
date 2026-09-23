@@ -5,21 +5,21 @@
 #include "viewport/demo_viewport.h"
 
 
-const ViewportModeDef demo_viewport_320x240 = {
+const e64::Viewport::ModeDef viewport_320x240 = {
 
-	.width      = 320,
-	.height     = 240,
+	.width = 320,
+	.height = 240,
 	.interlaced = INTERLACE_OFF,
 };
 
-const ViewportModeDef demo_viewport_640x240 = {
+const e64::Viewport::ModeDef viewport_640x240 = {
 
-	.width      = 640,
-	.height     = 240,
+	.width = 640,
+	.height = 240,
 	.interlaced = INTERLACE_OFF,
 
 	/* Its pixels are half as wide as they are tall, so the art goes at two
 	   across and one down and comes out the size it has at 320. */
-	.scale_x    = 2.0f,
-	.scale_y    = 1.0f,
+	.scale_x = 2.0f,
+	.scale_y = 1.0f,
 };

@@ -1,13 +1,13 @@
 #ifndef ASSETS_LADDER_H
 #define ASSETS_LADDER_H
 
-#include ENGINE_HEADER(entity, entity3d)
-#include ENGINE_HEADER(prefab, prefab3d)
+#include "entity/e64_entity3d.h"
+#include "prefab/e64_prefab3d.h"
 
-#define ladder_model "rom:/models/ladder" ENGINE_MODEL_EXT
+#define ladder_model "rom:/models/ladder" ".t3dm"
 
-extern const entity3d::ColliderDef ladder_collider;
+extern const e64::collider::Def ladder_collider;
 
-extern const Prefab3D ladder;
+extern const e64::Prefab3D ladder;
 
 #endif

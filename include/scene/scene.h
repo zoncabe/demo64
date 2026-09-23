@@ -1,8 +1,8 @@
 #ifndef SCENE_H
 #define SCENE_H
 
-#include ENGINE_HEADER(scene3d, scene3d)
+#include "scene3d/e64_scene3d.h"
 
-extern Scene3DDef demo_scene;
+extern e64::scene3d::Def scene3d;
 
 #endif

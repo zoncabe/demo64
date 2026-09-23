@@ -14,29 +14,24 @@
    ENGINE_FONT_EXT the one of the converted fonts and ENGINE_WAVE_EXT the
    one of the converted sounds. */
 
-#define ENGINE_STRINGIFY(x)     #x
-#define ENGINE_PATH(dir, file)  ENGINE_STRINGIFY(dir/file)
+#define ENGINE_STRINGIFY(x) #x
+#define ENGINE_PATH(dir, file) ENGINE_STRINGIFY(dir/file)
 
 #if defined(ENGINE_VOLCANO64)
 #define ENGINE_HEADER(dir, name) ENGINE_PATH(dir, v64_##name.h)
-#define ENGINE_MODEL_EXT         ".model"
-#define ENGINE_FONT_EXT          ".font64"
-#define ENGINE_WAVE_EXT          ".wav64"
+#define ENGINE_MODEL_EXT ".model"
+#define ENGINE_FONT_EXT ".font64"
+#define ENGINE_WAVE_EXT ".wav64"
 #elif defined(ENGINE_ULTRA64)
 #define ENGINE_HEADER(dir, name) ENGINE_PATH(dir, u64_##name.h)
-#define ENGINE_MODEL_EXT         ".model"
-#define ENGINE_FONT_EXT          ".font"
-#define ENGINE_WAVE_EXT          ".pcm"
+#define ENGINE_MODEL_EXT ".model"
+#define ENGINE_FONT_EXT ".font"
+#define ENGINE_WAVE_EXT ".pcm"
 #else
 #define ENGINE_HEADER(dir, name) ENGINE_PATH(dir, e64_##name.h)
-#define ENGINE_MODEL_EXT         ".t3dm"
-#define ENGINE_FONT_EXT          ".font64"
-#define ENGINE_WAVE_EXT          ".wav64"
-
-/* engine64 lives in its own namespace; forced into every unit, this header
-   opens it for the whole game so its names read as before. */
-namespace e64 {}
-using namespace e64;
+#define ENGINE_MODEL_EXT ".t3dm"
+#define ENGINE_FONT_EXT ".font64"
+#define ENGINE_WAVE_EXT ".wav64"
 #endif
 
 #endif

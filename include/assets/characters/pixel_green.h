@@ -1,7 +1,7 @@
 #ifndef PIXEL_GREEN_H
 #define PIXEL_GREEN_H
 
-#include ENGINE_HEADER(prefab, prefab2d)
+#include "prefab/e64_prefab2d.h"
 
 
 /* Kenney's pixel-platformer green blob, 24 px: a standing frame and a
@@ -19,6 +19,6 @@ typedef enum {
 } PixelGreenAnimation;
 
 
-extern const Prefab2D pixel_green;
+extern const e64::Prefab2D pixel_green;
 
 #endif

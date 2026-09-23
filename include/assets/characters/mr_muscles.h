@@ -1,11 +1,11 @@
 #ifndef MR_MUSCLES_H
 #define MR_MUSCLES_H
 
-#include ENGINE_HEADER(character3d, character3d)
-#include ENGINE_HEADER(prefab, prefab3d)
+#include "character3d/e64_character3d.h"
+#include "prefab/e64_prefab3d.h"
 
-#define mr_muscles_model "rom:/models/mr_muscles" ENGINE_MODEL_EXT
-#define gorilla_model "rom:/models/gorilla" ENGINE_MODEL_EXT
+#define mr_muscles_model "rom:/models/mr_muscles" ".t3dm"
+#define gorilla_model "rom:/models/gorilla" ".t3dm"
 
 
 typedef enum {
@@ -152,20 +152,20 @@ typedef enum {
 } MrMusclesAnim;
 
 
-extern const character3d::MovementSettings  mr_muscles_movement_settings;
-extern const character3d::StatsSettings     mr_muscles_stats_settings;
-extern const character3d::ColliderSettings  mr_muscles_collider_settings;
+extern const e64::character3d::MovementSettings mr_muscles_movement_settings;
+extern const e64::character3d::StatsSettings mr_muscles_stats_settings;
+extern const e64::character3d::ColliderSettings mr_muscles_collider_settings;
 
 extern const char *const mr_muscles_weapon_meshes[];
-extern const character3d::WeaponsDef mr_muscles_weapons_def;
-extern const character3d::Def mr_muscles_character_def;
+extern const e64::character3d::WeaponsDef mr_muscles_weapons_def;
+extern const e64::character3d::Def mr_muscles_character_def;
 
-extern const character3d::WeaponDef weapon_ak47;
-extern const character3d::WeaponDef weapon_m1911;
-extern const character3d::WeaponDef weapon_knife;
-extern const character3d::AnimationSettings mr_muscles_animation_settings;
-extern const character3d::AnimationDef      mr_muscles_animation_def;
+extern const e64::character3d::WeaponDef weapon_ak47;
+extern const e64::character3d::WeaponDef weapon_m1911;
+extern const e64::character3d::WeaponDef weapon_knife;
+extern const e64::character3d::AnimationSettings mr_muscles_animation_settings;
+extern const e64::character3d::AnimationDef mr_muscles_animation_def;
 
-extern const Prefab3D mr_muscles;
+extern const e64::Prefab3D mr_muscles;
 
 #endif

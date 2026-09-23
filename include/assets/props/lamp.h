@@ -1,10 +1,10 @@
 #ifndef ASSETS_LAMP_H
 #define ASSETS_LAMP_H
 
-#include ENGINE_HEADER(prefab, prefab3d)
+#include "prefab/e64_prefab3d.h"
 
-#define lamp_model "rom:/models/lamp" ENGINE_MODEL_EXT
+#define lamp_model "rom:/models/lamp" ".t3dm"
 
-extern const Prefab3D lamp;
+extern const e64::Prefab3D lamp;
 
 #endif

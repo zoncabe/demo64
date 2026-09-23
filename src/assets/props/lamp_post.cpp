@@ -15,32 +15,34 @@
 #include "assets/props/lamp_post.h"
 
 
-static const PhysicsShapeDef lamp_post_shapes[] = {
-	{ .type = SHAPE_BOX, .box = {
+static const e64::physics::Shape::Def lamp_post_shapes[] = {
+	{ .type = e64::physics::Shape::SHAPE_BOX, .box = {
 		.tx = { .position = { 0.0f, 0.0f, 2.75f } },
-		.e  = { 0.0422f, 0.0422f, 2.75f },
+		.e = { 0.0422f, 0.0422f, 2.75f },
 	}},
 };
 
-const entity3d::ColliderDef lamp_post_collider = { lamp_post_shapes, 1 };
+const e64::collider::Def lamp_post_collider = { lamp_post_shapes, 1 };
 
-const Prefab3D lamp_post = {
+static const char *const lamp_post_parts[] = {
+	"post",
+	"lamp",
+};
 
-	.type     = PREFAB3D_PROP,
-	.model    = lamp_post_model,
+/* A part left at zero is drawn where it was modelled, on the model's own
+   matrix, and costs nothing extra. */
+static const e64::Vector3 lamp_post_part_positions[] = {
+	{ 0.0f, 0.0f, 0.0f },
+	{ 0.0f, 0.0f, LAMP_POST_HEIGHT },
+};
 
-	.part = MESH_PARTS(
-		"post",
-		"lamp"
-	),
+const e64::Prefab3D lamp_post = {
 
-	/* A part left at zero is drawn where it was modelled, on the model's own
-	   matrix, and costs nothing extra. */
-	.part_position = MESH_PART_POSITIONS(
-		{ 0.0f, 0.0f, 0.0f             },
-		{ 0.0f, 0.0f, LAMP_POST_HEIGHT }
-	),
+	.type = e64::prefab3d::PREFAB3D_PROP,
+	.model = lamp_post_model,
 
+	.part = lamp_post_parts,
+	.part_position = lamp_post_part_positions,
 	.part_count = 2,
 
 	.collider = &lamp_post_collider,

@@ -1,14 +1,14 @@
 #ifndef ASSETS_POOL_H
 #define ASSETS_POOL_H
 
-#include ENGINE_HEADER(entity, entity3d)
-#include ENGINE_HEADER(prefab, prefab3d)
+#include "entity/e64_entity3d.h"
+#include "prefab/e64_prefab3d.h"
 
-#define pool_model "rom:/models/water" ENGINE_MODEL_EXT
+#define pool_model "rom:/models/water" ".t3dm"
 
-extern const entity3d::ColliderDef pool_collider;
-extern const WaterDef pool_water;
+extern const e64::collider::Def pool_collider;
+extern const e64::Water::Def pool_water;
 
-extern const Prefab3D pool;
+extern const e64::Prefab3D pool;
 
 #endif

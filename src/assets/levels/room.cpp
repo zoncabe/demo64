@@ -1,18 +1,18 @@
 #include "assets/levels/room.h"
 
-static const PhysicsShapeDef room_shapes[] = {
-	{ .type = SHAPE_MESH, .mesh = {
-		.path        = "rom:/collision/room.collision",
-		.friction    = 0.9f,
+static const e64::physics::Shape::Def room_shapes[] = {
+	{ .type = e64::physics::Shape::SHAPE_MESH, .mesh = {
+		.path = "rom:/collision/room.collision",
+		.friction = 0.9f,
 		.restitution = 0.1f,
 	}},
 };
 
-const entity3d::ColliderDef room_collider = { room_shapes, 1 };
+const e64::collider::Def room_collider = { room_shapes, 1 };
 
 /* No body: a prop without one is static, which is what a room is. */
-const Prefab3D room = {
-	.type     = PREFAB3D_PROP,
-	.model    = room_model,
+const e64::Prefab3D room = {
+	.type = e64::prefab3d::PREFAB3D_PROP,
+	.model = room_model,
 	.collider = &room_collider,
 };

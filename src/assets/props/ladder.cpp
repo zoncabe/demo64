@@ -24,22 +24,22 @@
    caught by jumping at it. Dropped 40, standing on the ground is inside.
    The top is left where it was, since that is the height the climb hands
    the body over at. Both rooted at the model's origin, the ladder's foot. */
-static const PhysicsShapeDef ladder_shapes[] = {
-	{ .type = SHAPE_BOX, .box = {
+static const e64::physics::Shape::Def ladder_shapes[] = {
+	{ .type = e64::physics::Shape::SHAPE_BOX, .box = {
 		.tx = { .position = { 0.0f, 0.0f, 2.5f } },
-		.e  = { 0.30f, 0.20f, 2.5f },
+		.e = { 0.30f, 0.20f, 2.5f },
 	}},
-	{ .type = SHAPE_BOX, .box = {
-		.tx     = { .position = { 0.0f, 0.0f, 2.3f } },
-		.e      = { 0.30f, 0.65f, 2.7f },
-		.sensor = SENSOR_CLIMBABLE,
+	{ .type = e64::physics::Shape::SHAPE_BOX, .box = {
+		.tx = { .position = { 0.0f, 0.0f, 2.3f } },
+		.e = { 0.30f, 0.65f, 2.7f },
+		.sensor = e64::physics::Shape::SENSOR_CLIMBABLE,
 	}},
 };
 
-const entity3d::ColliderDef ladder_collider = { ladder_shapes, 2 };
+const e64::collider::Def ladder_collider = { ladder_shapes, 2 };
 
-const Prefab3D ladder = {
-	.type     = PREFAB3D_PROP,
-	.model    = ladder_model,
+const e64::Prefab3D ladder = {
+	.type = e64::prefab3d::PREFAB3D_PROP,
+	.model = ladder_model,
 	.collider = &ladder_collider,
 };

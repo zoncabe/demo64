@@ -1,7 +1,7 @@
 #ifndef DEMO_VIEWPORT_H
 #define DEMO_VIEWPORT_H
 
-#include ENGINE_HEADER(viewport, viewport)
+#include "viewport/e64_viewport.h"
 
 
 /* The screens the demo runs on.
@@ -12,7 +12,7 @@
    in half steps of its own art instead of whole ones. Its pixels are half
    as wide as they are tall, so whatever is drawn under it goes at twice the
    width to keep its shape. */
-extern const ViewportModeDef demo_viewport_320x240;
-extern const ViewportModeDef demo_viewport_640x240;
+extern const e64::Viewport::ModeDef viewport_320x240;
+extern const e64::Viewport::ModeDef viewport_640x240;
 
 #endif

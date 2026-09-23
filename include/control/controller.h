@@ -1,18 +1,14 @@
 #ifndef CONTROLLER_H
 #define CONTROLLER_H
 
-#include ENGINE_HEADER(control, menu_control)
-#include ENGINE_HEADER(control, character3d_control)
-#include ENGINE_HEADER(control, character2d_control)
-#include ENGINE_HEADER(control, camera_control)
-#include ENGINE_HEADER(control, player_control)
+#include "controller/e64_controls.h"
 
-extern const menu::ControlBinding         menu_binding;
-extern const character3d::ControlBinding  character3d_binding;
-extern const character2d::ControlBinding  character2d_binding;
-extern const camera::ControlBinding       camera_binding;
+extern const e64::menu::ControlBinding menu_binding;
+extern const e64::character3d::ControlBinding character3d_binding;
+extern const e64::character2d::ControlBinding character2d_binding;
+extern const e64::camera3d::ControlBinding camera_binding;
 
 /* The four together, which is what a state declares. */
-extern const controls::Def demo_controls;
+extern const e64::controls::Def controls;
 
 #endif

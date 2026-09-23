@@ -1,7 +1,7 @@
 #ifndef GAME_STATES_H
 #define GAME_STATES_H
 
-#include ENGINE_HEADER(game, game_states)
+#include "game/e64_game_states.h"
 
 
 enum {
@@ -17,7 +17,7 @@ enum {
 
 };
 
-extern const GameStateDef game_states[STATE_COUNT];
+extern const e64::Game::State::Def game_states[STATE_COUNT];
 
 
 #endif

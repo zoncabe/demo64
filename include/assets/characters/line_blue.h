@@ -1,7 +1,7 @@
 #ifndef LINE_BLUE_H
 #define LINE_BLUE_H
 
-#include ENGINE_HEADER(prefab, prefab2d)
+#include "prefab/e64_prefab2d.h"
 
 
 /* Kenney's pixel-line-platformer blue runner, 16 px: two running frames,
@@ -19,6 +19,6 @@ typedef enum {
 } LineBlueAnimation;
 
 
-extern const Prefab2D line_blue;
+extern const e64::Prefab2D line_blue;
 
 #endif

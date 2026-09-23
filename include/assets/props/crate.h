@@ -1,21 +1,21 @@
 #ifndef ASSETS_CRATE_H
 #define ASSETS_CRATE_H
 
-#include ENGINE_HEADER(entity, entity3d)
-#include ENGINE_HEADER(prefab, prefab3d)
+#include "entity/e64_entity3d.h"
+#include "prefab/e64_prefab3d.h"
 
-#define green_crate_model  "rom:/models/green_box"  ENGINE_MODEL_EXT
-#define yellow_crate_model "rom:/models/yellow_box" ENGINE_MODEL_EXT
-#define red_crate_model    "rom:/models/red_box"    ENGINE_MODEL_EXT
+#define green_crate_model "rom:/models/green_box" ".t3dm"
+#define yellow_crate_model "rom:/models/yellow_box" ".t3dm"
+#define red_crate_model "rom:/models/red_box" ".t3dm"
 
-extern const entity3d::ColliderDef green_crate_collider;
-extern const entity3d::ColliderDef yellow_crate_collider;
-extern const entity3d::ColliderDef red_crate_collider;
+extern const e64::collider::Def green_crate_collider;
+extern const e64::collider::Def yellow_crate_collider;
+extern const e64::collider::Def red_crate_collider;
 
-extern const RigidBodyDef crate_body;
+extern const e64::RigidBody::Def crate_body;
 
-extern const Prefab3D green_crate;
-extern const Prefab3D yellow_crate;
-extern const Prefab3D red_crate;
+extern const e64::Prefab3D green_crate;
+extern const e64::Prefab3D yellow_crate;
+extern const e64::Prefab3D red_crate;
 
 #endif

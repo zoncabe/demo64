@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-typedef struct Player Player;
+namespace e64 { struct Player; }
 
 void stamina_wheel_init(void);
 
@@ -14,7 +14,7 @@ void stamina_wheel_load(void);
 void stamina_wheel_unload(void);
 
 float stamina_wheel_getProgress(void);
-void stamina_wheel_update(const Player *player, uint8_t fb_index);
+void stamina_wheel_update(const e64::Player *player, uint8_t fb_index);
 void stamina_wheel_draw(void);
 
 #endif

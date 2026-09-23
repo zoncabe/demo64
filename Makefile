@@ -21,7 +21,11 @@ src = $(wildcard src/*.cpp) \
 # recursively, under this path, and builds the path left in the model by
 # replacing this prefix with "rom:/". A PNG in assets/textures/x.png gives
 # rom:/textures/x.sprite, which is where the build leaves the sprite.
-GLTF_FLAGS = '--asset-path=assets'
+#
+# --skin-strips: stripify the chunks of a model with a skeleton too. Upstream
+# skips them, so a character's triangles go out one command each: 578 of them
+# per frame here, against 34 with the flag on. Needs the engine's own importer.
+GLTF_FLAGS = '--asset-path=assets' --skin-strips
 
 # Models with a collision mesh, declared one per line.
 assets_collision = filesystem/collision/room.collision \
@@ -46,6 +50,10 @@ filesystem/fonts/Xolonium60.font64: MKFONT_FLAGS += --size 60 $(XOLONIUM_FLAGS)
 # The 2D characters' frames are palette art: CI8 keeps them at a quarter of
 # the RGBA32 size in RAM.
 filesystem/sprites/characters/%.sprite: MKSPRITE_FLAGS += --format CI8
+
+# Diagnostic: the stage tiles as RGBA16 instead of the CI4 mksprite picks
+# for their palette PNGs, to take the 4-bit load path out of the frame.
+filesystem/stages/%.sprite: MKSPRITE_FLAGS += --format RGBA16
 
 include $(ENGINE_DIR)/engine.mk
 

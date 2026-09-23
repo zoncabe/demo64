@@ -1,22 +1,22 @@
 #ifndef MISS_JIGGLES_H
 #define MISS_JIGGLES_H
 
-#include ENGINE_HEADER(character3d, character3d)
-#include ENGINE_HEADER(prefab, prefab3d)
+#include "character3d/e64_character3d.h"
+#include "prefab/e64_prefab3d.h"
 
-#define miss_jiggles_model "rom:/models/miss_jiggles" ENGINE_MODEL_EXT
+#define miss_jiggles_model "rom:/models/miss_jiggles" ".t3dm"
 
 /* Soft-body driven bones present in the rig. */
 #define MISS_JIGGLES_BONE_BREAST_L "Breast.L"
 #define MISS_JIGGLES_BONE_BREAST_R "Breast.R"
-#define MISS_JIGGLES_BONE_HAIR_1   "Hair1"
-#define MISS_JIGGLES_BONE_HAIR_2   "Hair2"
-#define MISS_JIGGLES_BONE_HAIR_3   "Hair3"
-#define MISS_JIGGLES_BONE_HAIR_4   "Hair4"
-#define MISS_JIGGLES_BONE_HEAD     "mixamorig:Head"
-#define MISS_JIGGLES_BONE_NECK     "mixamorig:Neck"
-#define MISS_JIGGLES_BONE_SPINE_2  "mixamorig:Spine2"
-#define MISS_JIGGLES_BONE_ARM_R    "mixamorig:RightArm"
+#define MISS_JIGGLES_BONE_HAIR_1 "Hair1"
+#define MISS_JIGGLES_BONE_HAIR_2 "Hair2"
+#define MISS_JIGGLES_BONE_HAIR_3 "Hair3"
+#define MISS_JIGGLES_BONE_HAIR_4 "Hair4"
+#define MISS_JIGGLES_BONE_HEAD "mixamorig:Head"
+#define MISS_JIGGLES_BONE_NECK "mixamorig:Neck"
+#define MISS_JIGGLES_BONE_SPINE_2 "mixamorig:Spine2"
+#define MISS_JIGGLES_BONE_ARM_R "mixamorig:RightArm"
 
 
 typedef enum {
@@ -196,16 +196,16 @@ typedef enum {
 } MissJigglesAnim;
 
 
-extern const character3d::MovementSettings  miss_jiggles_movement_settings;
-extern const character3d::StatsSettings     miss_jiggles_stats_settings;
-extern const character3d::ColliderSettings  miss_jiggles_collider_settings;
-extern const char *const                    miss_jiggles_weapon_meshes[];
-extern const character3d::WeaponsDef        miss_jiggles_weapons_def;
-extern const character3d::WeaponDef         weapon_bow;
-extern const SpringBonesDef                 miss_jiggles_spring_bones[];
-extern const character3d::AnimationSettings miss_jiggles_animation_settings;
-extern const character3d::AnimationDef      miss_jiggles_animation_def;
-extern const character3d::Def               miss_jiggles_character_def;
-extern const Prefab3D                       miss_jiggles;
+extern const e64::character3d::MovementSettings miss_jiggles_movement_settings;
+extern const e64::character3d::StatsSettings miss_jiggles_stats_settings;
+extern const e64::character3d::ColliderSettings miss_jiggles_collider_settings;
+extern const char *const miss_jiggles_weapon_meshes[];
+extern const e64::character3d::WeaponsDef miss_jiggles_weapons_def;
+extern const e64::character3d::WeaponDef weapon_bow;
+extern const e64::SpringBonesDef miss_jiggles_spring_bones[];
+extern const e64::character3d::AnimationSettings miss_jiggles_animation_settings;
+extern const e64::character3d::AnimationDef miss_jiggles_animation_def;
+extern const e64::character3d::Def miss_jiggles_character_def;
+extern const e64::Prefab3D miss_jiggles;
 
 #endif

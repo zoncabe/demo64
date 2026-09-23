@@ -1,8 +1,8 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#include ENGINE_HEADER(camera, camera)
+#include "camera/e64_camera3d.h"
 
-extern const camera::Def camera_def;
+extern const e64::camera3d::Def camera_def;
 
 #endif
