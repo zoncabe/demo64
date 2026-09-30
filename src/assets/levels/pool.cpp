@@ -52,9 +52,9 @@ const e64::Water::Def pool_water = {
 
 const e64::Prefab3D pool = {
 	.type = e64::prefab3d::PREFAB3D_WATER,
-	.model = pool_model,
-	.sound = pool_splash,
-	.sound_count = 2,
+	.mesh = { .model = pool_model },
 	.collider = &pool_collider,
 	.water = &pool_water,
+	.sound = pool_splash,
+	.sound_count = 2,
 };

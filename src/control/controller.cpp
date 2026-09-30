@@ -11,6 +11,7 @@
 	An action left out is BTN_NONE, which reads as never pressed.
 */
 #include "camera/camera.h"
+#include "scene/scene2d.h"
 #include "control/controller.h"
 
 /* The 3D scene's entity table: the character binding names its row. */
@@ -55,20 +56,19 @@ const e64::character3d::ControlBinding character3d_binding = {
 };
 
 /* The side view: the d-pad walks, the stick too. The four screens of the 2D
-   game are four scenes with the same buttons, so this names no placement:
-   the load seats nobody, and the stage opener seats the body it holds. */
-const e64::character2d::ControlBinding character2d_binding = {
+   game share the buttons and each has a body of its own, so there is one
+   binding per screen, naming that screen's body. */
+#define CHARACTER2D_BUTTONS \
+	.jump = e64::BTN_A, \
+	.roll = e64::BTN_B, \
+	.sprint = e64::BTN_L, \
+	.left = e64::BTN_D_LEFT, \
+	.right = e64::BTN_D_RIGHT
 
-	.player = e64::PLAYER_1,
-	.character = NULL,
-
-	.jump = e64::BTN_A,
-	.roll = e64::BTN_B,
-	.sprint = e64::BTN_L,
-
-	.left = e64::BTN_D_LEFT,
-	.right = e64::BTN_D_RIGHT,
-};
+static const e64::character2d::ControlBinding pixel_a_binding = { .player = e64::PLAYER_1, .character = &pixel_a_placed[2], CHARACTER2D_BUTTONS };
+static const e64::character2d::ControlBinding pixel_b_binding = { .player = e64::PLAYER_1, .character = &pixel_b_placed[2], CHARACTER2D_BUTTONS };
+static const e64::character2d::ControlBinding industry_binding = { .player = e64::PLAYER_1, .character = &industry_placed[2], CHARACTER2D_BUTTONS };
+static const e64::character2d::ControlBinding line_binding = { .player = e64::PLAYER_1, .character = &line_placed[2], CHARACTER2D_BUTTONS };
 
 /* The C stick swings the arm. Distance and field of view are left unbound:
    nothing in this demo pushes them by hand.
@@ -86,14 +86,19 @@ const e64::camera3d::ControlBinding camera_binding = {
 	.tilt_down = e64::BTN_C_DOWN,
 };
 
-/* What the demo drives with, all of it. A state names this and the engine
-   wires whatever of it belongs to the scenes that state carries: the 3D
-   gameplay takes the camera and the body, the 2D one takes its own body,
-   and the menus read theirs from the state's control callback. */
+/* What the 3D gameplay drives with. The state names this and the engine
+   wires it as it builds the scene: the camera and the body. The menus read
+   theirs from the state's control callback. */
 const e64::controls::Def controls = {
 
 	.camera = &camera_binding,
 	.character3d = &character3d_binding,
-	.character2d = &character2d_binding,
 	.menu = &menu_binding,
 };
+
+/* What each 2D screen loads with: the state declares the first, and the
+   gameplay hands the next screen its own as it opens it. */
+const e64::controls::Def controls_pixel_a = { .character2d = &pixel_a_binding };
+const e64::controls::Def controls_pixel_b = { .character2d = &pixel_b_binding };
+const e64::controls::Def controls_industry = { .character2d = &industry_binding };
+const e64::controls::Def controls_line = { .character2d = &line_binding };

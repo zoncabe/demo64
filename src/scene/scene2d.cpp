@@ -10,7 +10,7 @@
 #include "assets/characters/pixel_green.h"
 #include "assets/characters/pixel_yellow.h"
 #include "assets/characters/line_blue.h"
-#include "scene/demo_scene2d.h"
+#include "scene/scene2d.h"
 
 
 /* Pixel perfect: one world pixel is one screen pixel. */
@@ -64,8 +64,9 @@ static const e64::Prefab2D pixel_a_backdrop = { .type = e64::prefab2d::PREFAB2D_
 static const e64::Prefab2D pixel_a_level = { .type = e64::prefab2d::PREFAB2D_STAGE, .stage =&pixel_a_level_file };
 
 /* The body collides with the last stage placed, so the level goes after the
-   backdrop. */
-static const e64::scene2d::Entity pixel_a_placed[] = {
+   backdrop. The placements are read by the control bindings, which name the
+   body's row. */
+const e64::scene2d::Entity pixel_a_placed[] = {
 
 	{ &pixel_a_backdrop, { BACKDROP_X, BACKDROP_Y } },
 	{ &pixel_a_level, { 0.0f, 0.0f } },
@@ -98,6 +99,8 @@ const e64::scene2d::Def scene2d_pixel_a = {
 	.background = RGBA32(223, 246, 245, 255),
 };
 
+const e64::Vector2 pixel_a_return = PIXEL_A_RETURN;
+
 
 /* --- pixel b ------------------------------------------------------------ */
 
@@ -107,7 +110,7 @@ static const e64::stage2d::Def pixel_b_level_file = { "rom:/stages/kenney_pixel-
 static const e64::Prefab2D pixel_b_backdrop = { .type = e64::prefab2d::PREFAB2D_STAGE, .stage =&pixel_b_backdrop_file };
 static const e64::Prefab2D pixel_b_level = { .type = e64::prefab2d::PREFAB2D_STAGE, .stage =&pixel_b_level_file };
 
-static const e64::scene2d::Entity pixel_b_placed[] = {
+const e64::scene2d::Entity pixel_b_placed[] = {
 
 	{ &pixel_b_backdrop, { BACKDROP_X, BACKDROP_Y } },
 	{ &pixel_b_level, { 0.0f, 0.0f } },
@@ -139,6 +142,8 @@ const e64::scene2d::Def scene2d_pixel_b = {
 	.background = RGBA32(223, 246, 245, 255),
 };
 
+const e64::Vector2 pixel_b_return = PIXEL_B_RETURN;
+
 
 /* --- industry ----------------------------------------------------------- */
 
@@ -148,7 +153,7 @@ static const e64::stage2d::Def industry_level_file = { "rom:/stages/kenney_pixel
 static const e64::Prefab2D industry_backdrop = { .type = e64::prefab2d::PREFAB2D_STAGE, .stage =&industry_backdrop_file };
 static const e64::Prefab2D industry_level = { .type = e64::prefab2d::PREFAB2D_STAGE, .stage =&industry_level_file };
 
-static const e64::scene2d::Entity industry_placed[] = {
+const e64::scene2d::Entity industry_placed[] = {
 
 	{ &industry_backdrop, { BACKDROP_X, BACKDROP_Y } },
 	{ &industry_level, { 0.0f, 0.0f } },
@@ -180,6 +185,8 @@ const e64::scene2d::Def scene2d_industry = {
 	.background = RGBA32(217, 163, 151, 255),
 };
 
+const e64::Vector2 industry_return = INDUSTRY_RETURN;
+
 
 /* --- line --------------------------------------------------------------- */
 
@@ -196,7 +203,7 @@ static const e64::stage2d::Def line_level_file = { "rom:/stages/kenney_pixel-lin
 static const e64::Prefab2D line_backdrop = { .type = e64::prefab2d::PREFAB2D_STAGE, .stage =&line_backdrop_file };
 static const e64::Prefab2D line_level = { .type = e64::prefab2d::PREFAB2D_STAGE, .stage =&line_level_file };
 
-static const e64::scene2d::Entity line_placed[] = {
+const e64::scene2d::Entity line_placed[] = {
 
 	{ &line_backdrop, { LINE_BACKDROP_X, LINE_BACKDROP_Y } },
 	{ &line_level, { 0.0f, 0.0f } },
@@ -229,39 +236,4 @@ const e64::scene2d::Def scene2d_line = {
 	.background = RGBA32(252, 223, 205, 255),
 };
 
-
-/* --- the stages in order ------------------------------------------------ */
-
-static const struct {
-
-	const e64::scene2d::Def *scene;
-	e64::Vector2 start;
-	e64::Vector2 back;
-
-} stage[] = {
-
-	{ &scene2d_pixel_a, PIXEL_A_START, PIXEL_A_RETURN },
-	{ &scene2d_pixel_b, PIXEL_B_START, PIXEL_B_RETURN },
-	{ &scene2d_industry, INDUSTRY_START, INDUSTRY_RETURN },
-	{ &scene2d_line, LINE_START, LINE_RETURN },
-};
-
-uint8_t stage_getCount(void)
-{
-	return sizeof(stage) / sizeof(stage[0]);
-}
-
-const e64::scene2d::Def *stage_getScene(uint8_t index)
-{
-	return stage[index].scene;
-}
-
-e64::Vector2 stage_getStart(uint8_t index)
-{
-	return stage[index].start;
-}
-
-e64::Vector2 stage_getReturn(uint8_t index)
-{
-	return stage[index].back;
-}
+const e64::Vector2 line_return = LINE_RETURN;

@@ -21,7 +21,7 @@ int main()
 
     stamina_wheel_init();
 
-    e64::game::state::start(game_states, STATE_COUNT, GAMEPLAY3D);
+    e64::game::state::start(gameState::table, gameState::COUNT, gameState::GAMEPLAY3D);
 
     for (;;) e64::game::runStep();
 

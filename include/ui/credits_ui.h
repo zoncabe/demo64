@@ -1,11 +1,10 @@
 #ifndef CREDITS_UI_H
 #define CREDITS_UI_H
 
-#include "scene2d/e64_scene2d.h"
-#include "ui/e64_ui_animation.h"
+#include "ui/e64_ui.h"
 
 
-extern const e64::scene2d::Def credits_scene2d;
+extern const e64::ui::Def credits_ui;
 
 /* Played on the way in, and backwards on the way out. */
 extern const e64::UIAnimation credits_enter;

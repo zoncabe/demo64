@@ -7,7 +7,7 @@
 
 #define PY_FRAME(clip) "rom:/sprites/characters/pixel_yellow/" clip "/pixel_yellow_" clip "_f00.sprite"
 
-static const e64::character2d::AnimationClipDef pixel_yellow_clips[PIXEL_YELLOW_ANIM_COUNT] = {
+static const e64::sprite::Animation::ClipDef pixel_yellow_clips[PIXEL_YELLOW_ANIM_COUNT] = {
 
 	[PIXEL_YELLOW_ANIM_IDLE] = { PY_FRAME("idle"), 1, 1.0f, true },
 	[PIXEL_YELLOW_ANIM_WALK] = { PY_FRAME("walk"), 2, 6.0f, true },
@@ -16,6 +16,8 @@ static const e64::character2d::AnimationClipDef pixel_yellow_clips[PIXEL_YELLOW_
 	[PIXEL_YELLOW_ANIM_LAND] = { PY_FRAME("idle"), 1, 4.0f, false },
 };
 
+static const e64::sprite::Animation::Def pixel_yellow_animation = { .clip = pixel_yellow_clips, .clip_count = PIXEL_YELLOW_ANIM_COUNT };
+
 static const e64::character2d::AnimationSettings pixel_yellow_animation_settings = {
 
 	.land_anim_ground = 0.25f,
@@ -23,9 +25,7 @@ static const e64::character2d::AnimationSettings pixel_yellow_animation_settings
 
 static const e64::character2d::AnimationDef pixel_yellow_animation_def = {
 
-	.clip = pixel_yellow_clips,
 	.settings = &pixel_yellow_animation_settings,
-	.clip_count = PIXEL_YELLOW_ANIM_COUNT,
 
 	.idle_animation = PIXEL_YELLOW_ANIM_IDLE,
 	.walk_animation = PIXEL_YELLOW_ANIM_WALK,
@@ -84,7 +84,7 @@ static const e64::character2d::Def pixel_yellow_character_def = {
 const e64::Prefab2D pixel_yellow = {
 
 	.type = e64::prefab2d::PREFAB2D_CHARACTER,
-	.graphic = { .type = e64::Graphic::SPRITE, .sprite = { .path = PY_FRAME("idle") } },
+	.graphic = { .type = e64::Graphic::SPRITE, .sprite = { .animation_def = &pixel_yellow_animation } },
 	.character = &pixel_yellow_character_def,
 	.parallax = 1.0f,
 };

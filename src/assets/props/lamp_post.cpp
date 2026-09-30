@@ -39,11 +39,12 @@ static const e64::Vector3 lamp_post_part_positions[] = {
 const e64::Prefab3D lamp_post = {
 
 	.type = e64::prefab3d::PREFAB3D_PROP,
-	.model = lamp_post_model,
-
-	.part = lamp_post_parts,
-	.part_position = lamp_post_part_positions,
-	.part_count = 2,
+	.mesh = {
+		.model = lamp_post_model,
+		.part = lamp_post_parts,
+		.part_position = lamp_post_part_positions,
+		.part_count = 2,
+	},
 
 	.collider = &lamp_post_collider,
 };

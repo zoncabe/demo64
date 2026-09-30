@@ -3,5 +3,5 @@
 /* Pure dressing: no collider. */
 const e64::Prefab3D lamp = {
 	.type = e64::prefab3d::PREFAB3D_PROP,
-	.model = lamp_model,
+	.mesh = { .model = lamp_model },
 };

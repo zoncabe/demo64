@@ -21,7 +21,7 @@ static const rdpq_textparms_t h40_parms = { .char_spacing = 0 };
 static const rdpq_textparms_t roll_parms = { .width = CREDITS_ROLL_WIDTH, .wrap = WRAP_WORD };
 
 
-/* One enum per layer: the tracks and the scroll address an entity by the
+/* One enum per layer: the tracks and the scroll address a widget by the
    layer it sits in and its place inside it. */
 typedef enum {
 
@@ -42,7 +42,7 @@ typedef enum {
 
 	CREDITS_BACK_COUNT,
 
-} CreditsBackEntity;
+} CreditsBackWidget;
 
 typedef enum {
 
@@ -50,7 +50,7 @@ typedef enum {
 
 	CREDITS_ROLL_COUNT,
 
-} CreditsRollEntity;
+} CreditsRollWidget;
 
 typedef enum {
 
@@ -59,7 +59,7 @@ typedef enum {
 
 	CREDITS_FADE_COUNT,
 
-} CreditsFadeEntity;
+} CreditsFadeWidget;
 
 typedef enum {
 
@@ -71,7 +71,7 @@ typedef enum {
 
 	CREDITS_HINT_COUNT,
 
-} CreditsHintEntity;
+} CreditsHintWidget;
 
 typedef enum {
 
@@ -79,7 +79,7 @@ typedef enum {
 
 	CREDITS_COVER_COUNT,
 
-} CreditsCoverEntity;
+} CreditsCoverWidget;
 
 
 /* ^01 grey, ^02 yellow: the styles the font table declares. */
@@ -107,77 +107,77 @@ static const char credits_roll_text[] =
 	"you are the best!!";
 
 
-static const e64::Prefab2D credits_back_prefab[CREDITS_BACK_COUNT] = {
+static const e64::Graphic credits_back_graphic[CREDITS_BACK_COUNT] = {
 
-	[CREDITS_BG] = { .type = e64::prefab2d::PREFAB2D_WIDGET, .graphic = { .type = e64::Graphic::RECTANGLE, .rectangle = { .fill = e64::Rectangle::GRADIENT, .gradient ={ RGBA32(25, 121, 201, 255), RGBA32(117, 175, 223, 255), RGBA32(117, 175, 223, 255), RGBA32(25, 121, 201, 255) } } } },
-	[CREDITS_TITLE] = { .type = e64::prefab2d::PREFAB2D_WIDGET, .graphic = { .type = e64::Graphic::TEXT, .text ={ XOLONIUM_40, MENU_STYLE_NORMAL, "Credits", &h40_parms } } },
+	[CREDITS_BG] = { .type = e64::Graphic::RECTANGLE, .rectangle = { .fill = e64::Rectangle::GRADIENT, .gradient ={ RGBA32(25, 121, 201, 255), RGBA32(117, 175, 223, 255), RGBA32(117, 175, 223, 255), RGBA32(25, 121, 201, 255) } } },
+	[CREDITS_TITLE] = { .type = e64::Graphic::TEXT, .text ={ XOLONIUM_40, MENU_STYLE_NORMAL, "Credits", &h40_parms } },
 };
 
-static const e64::scene2d::Entity credits_back_placed[CREDITS_BACK_COUNT] = {
+static const e64::ui::WidgetDef credits_back_placed[CREDITS_BACK_COUNT] = {
 
-	[CREDITS_BG] = { &credits_back_prefab[CREDITS_BG], { 0.0f, 0.0f }, { 320.0f, 240.0f } },
-	[CREDITS_TITLE] = { &credits_back_prefab[CREDITS_TITLE], { 43.0f, 45.0f } },
+	[CREDITS_BG] = { .position = { 0.0f, 0.0f }, .scale = { 320.0f, 240.0f }, .graphic = &credits_back_graphic[CREDITS_BG] },
+	[CREDITS_TITLE] = { .position = { 43.0f, 45.0f }, .graphic = &credits_back_graphic[CREDITS_TITLE] },
 };
 
-static const e64::Prefab2D credits_roll_prefab[CREDITS_ROLL_COUNT] = {
+static const e64::Graphic credits_roll_graphic[CREDITS_ROLL_COUNT] = {
 
-	[CREDITS_ROLL] = { .type = e64::prefab2d::PREFAB2D_WIDGET, .graphic = { .type = e64::Graphic::TEXT, .text ={ XOLONIUM_14, MENU_STYLE_NORMAL, credits_roll_text, &roll_parms } } },
+	[CREDITS_ROLL] = { .type = e64::Graphic::TEXT, .text ={ XOLONIUM_14, MENU_STYLE_NORMAL, credits_roll_text, &roll_parms } },
 };
 
-static const e64::scene2d::Entity credits_roll_placed[CREDITS_ROLL_COUNT] = {
+static const e64::ui::WidgetDef credits_roll_placed[CREDITS_ROLL_COUNT] = {
 
-	[CREDITS_ROLL] = { &credits_roll_prefab[CREDITS_ROLL], { CREDITS_ROLL_X, 0.0f } },
+	[CREDITS_ROLL] = { .position = { CREDITS_ROLL_X, 0.0f }, .graphic = &credits_roll_graphic[CREDITS_ROLL] },
 };
 
 /* Fade at the window edges: two gradients in the background colour, opaque
    toward the edge and transparent toward the centre, drawn over the text.
    The background runs horizontally, so each overlay copies the colours of
    its two ends. */
-static const e64::Prefab2D credits_fade_prefab[CREDITS_FADE_COUNT] = {
+static const e64::Graphic credits_fade_graphic[CREDITS_FADE_COUNT] = {
 
-	[CREDITS_FADE_TOP] = { .type = e64::prefab2d::PREFAB2D_WIDGET, .graphic = { .type = e64::Graphic::RECTANGLE, .rectangle = { .fill = e64::Rectangle::GRADIENT, .gradient ={ RGBA32(25, 121, 201, 255), RGBA32(117, 175, 223, 255), RGBA32(117, 175, 223, 0), RGBA32(25, 121, 201, 0) } } } },
-	[CREDITS_FADE_BOTTOM] = { .type = e64::prefab2d::PREFAB2D_WIDGET, .graphic = { .type = e64::Graphic::RECTANGLE, .rectangle = { .fill = e64::Rectangle::GRADIENT, .gradient ={ RGBA32(25, 121, 201, 0), RGBA32(117, 175, 223, 0), RGBA32(117, 175, 223, 255), RGBA32(25, 121, 201, 255) } } } },
+	[CREDITS_FADE_TOP] = { .type = e64::Graphic::RECTANGLE, .rectangle = { .fill = e64::Rectangle::GRADIENT, .gradient ={ RGBA32(25, 121, 201, 255), RGBA32(117, 175, 223, 255), RGBA32(117, 175, 223, 0), RGBA32(25, 121, 201, 0) } } },
+	[CREDITS_FADE_BOTTOM] = { .type = e64::Graphic::RECTANGLE, .rectangle = { .fill = e64::Rectangle::GRADIENT, .gradient ={ RGBA32(25, 121, 201, 0), RGBA32(117, 175, 223, 0), RGBA32(117, 175, 223, 255), RGBA32(25, 121, 201, 255) } } },
 };
 
-static const e64::scene2d::Entity credits_fade_placed[CREDITS_FADE_COUNT] = {
+static const e64::ui::WidgetDef credits_fade_placed[CREDITS_FADE_COUNT] = {
 
-	[CREDITS_FADE_TOP] = { &credits_fade_prefab[CREDITS_FADE_TOP], { 0.0f, 50.0f }, { 320.0f, 14.0f } },
-	[CREDITS_FADE_BOTTOM] = { &credits_fade_prefab[CREDITS_FADE_BOTTOM], { 0.0f, 198.0f }, { 320.0f, 14.0f } },
+	[CREDITS_FADE_TOP] = { .position = { 0.0f, 50.0f }, .scale = { 320.0f, 14.0f }, .graphic = &credits_fade_graphic[CREDITS_FADE_TOP] },
+	[CREDITS_FADE_BOTTOM] = { .position = { 0.0f, 198.0f }, .scale = { 320.0f, 14.0f }, .graphic = &credits_fade_graphic[CREDITS_FADE_BOTTOM] },
 };
 
-static const e64::Prefab2D credits_hint_prefab[CREDITS_HINT_COUNT] = {
+static const e64::Graphic credits_hint_graphic[CREDITS_HINT_COUNT] = {
 
-	[CREDITS_HINT_SCROLL] = { .type = e64::prefab2d::PREFAB2D_WIDGET, .graphic = { .type = e64::Graphic::TEXT, .text = { XOLONIUM_14, 0, "Scroll", &h14_parms } } },
-	[CREDITS_HINT_BACK] = { .type = e64::prefab2d::PREFAB2D_WIDGET, .graphic = { .type = e64::Graphic::TEXT, .text = { XOLONIUM_14, 0, "Back", &h14_parms } } },
-	[CREDITS_D_UP] = { .type = e64::prefab2d::PREFAB2D_WIDGET, .graphic = { .type = e64::Graphic::SPRITE, .sprite = { .path = "rom:/sprites/core/DUp.sprite" } } },
-	[CREDITS_D_DOWN] = { .type = e64::prefab2d::PREFAB2D_WIDGET, .graphic = { .type = e64::Graphic::SPRITE, .sprite = { .path = "rom:/sprites/core/DDown.sprite" } } },
-	[CREDITS_BTN_B] = { .type = e64::prefab2d::PREFAB2D_WIDGET, .graphic = { .type = e64::Graphic::SPRITE, .sprite = { .path = "rom:/sprites/core/BButton.sprite" } } },
+	[CREDITS_HINT_SCROLL] = { .type = e64::Graphic::TEXT, .text = { XOLONIUM_14, 0, "Scroll", &h14_parms } },
+	[CREDITS_HINT_BACK] = { .type = e64::Graphic::TEXT, .text = { XOLONIUM_14, 0, "Back", &h14_parms } },
+	[CREDITS_D_UP] = { .type = e64::Graphic::SPRITE, .sprite = { .path = "rom:/sprites/core/DUp.sprite" } },
+	[CREDITS_D_DOWN] = { .type = e64::Graphic::SPRITE, .sprite = { .path = "rom:/sprites/core/DDown.sprite" } },
+	[CREDITS_BTN_B] = { .type = e64::Graphic::SPRITE, .sprite = { .path = "rom:/sprites/core/BButton.sprite" } },
 };
 
-static const e64::scene2d::Entity credits_hint_placed[CREDITS_HINT_COUNT] = {
+static const e64::ui::WidgetDef credits_hint_placed[CREDITS_HINT_COUNT] = {
 
-	[CREDITS_HINT_SCROLL] = { &credits_hint_prefab[CREDITS_HINT_SCROLL], { 273.0f, 201.0f } },
-	[CREDITS_HINT_BACK] = { &credits_hint_prefab[CREDITS_HINT_BACK], { 281.0f, 216.0f } },
-	[CREDITS_D_UP] = { &credits_hint_prefab[CREDITS_D_UP], { 248.0f, 193.0f }, { 0.48f, 0.48f } },
-	[CREDITS_D_DOWN] = { &credits_hint_prefab[CREDITS_D_DOWN], { 258.0f, 194.0f }, { 0.48f, 0.48f } },
-	[CREDITS_BTN_B] = { &credits_hint_prefab[CREDITS_BTN_B], { 266.0f, 207.0f }, { 0.60f, 0.60f } },
+	[CREDITS_HINT_SCROLL] = { .position = { 273.0f, 201.0f }, .graphic = &credits_hint_graphic[CREDITS_HINT_SCROLL] },
+	[CREDITS_HINT_BACK] = { .position = { 281.0f, 216.0f }, .graphic = &credits_hint_graphic[CREDITS_HINT_BACK] },
+	[CREDITS_D_UP] = { .position = { 248.0f, 193.0f }, .scale = { 0.48f, 0.48f }, .graphic = &credits_hint_graphic[CREDITS_D_UP] },
+	[CREDITS_D_DOWN] = { .position = { 258.0f, 194.0f }, .scale = { 0.48f, 0.48f }, .graphic = &credits_hint_graphic[CREDITS_D_DOWN] },
+	[CREDITS_BTN_B] = { .position = { 266.0f, 207.0f }, .scale = { 0.60f, 0.60f }, .graphic = &credits_hint_graphic[CREDITS_BTN_B] },
 };
 
-static const e64::Prefab2D credits_cover_prefab[CREDITS_COVER_COUNT] = {
+static const e64::Graphic credits_cover_graphic[CREDITS_COVER_COUNT] = {
 
-	[CREDITS_COVER] = { .type = e64::prefab2d::PREFAB2D_WIDGET, .graphic = { .type = e64::Graphic::RECTANGLE, .rectangle = { .fill = e64::Rectangle::GRADIENT, .gradient ={ RGBA32(0, 0, 0, 255), RGBA32(0, 0, 0, 255), RGBA32(0, 0, 0, 255), RGBA32(0, 0, 0, 255) } }, .is_hidden = true } },
+	[CREDITS_COVER] = { .type = e64::Graphic::RECTANGLE, .rectangle = { .fill = e64::Rectangle::GRADIENT, .gradient ={ RGBA32(0, 0, 0, 255), RGBA32(0, 0, 0, 255), RGBA32(0, 0, 0, 255), RGBA32(0, 0, 0, 255) } }, .is_hidden = true },
 };
 
-static const e64::scene2d::Entity credits_cover_placed[CREDITS_COVER_COUNT] = {
+static const e64::ui::WidgetDef credits_cover_placed[CREDITS_COVER_COUNT] = {
 
-	[CREDITS_COVER] = { &credits_cover_prefab[CREDITS_COVER], { 0.0f, 0.0f }, { 320.0f, 240.0f } },
+	[CREDITS_COVER] = { .position = { 0.0f, 0.0f }, .scale = { 320.0f, 240.0f }, .graphic = &credits_cover_graphic[CREDITS_COVER] },
 };
 
-static const e64::scene2d::Layer credits_layer[CREDITS_LAYER_COUNT] = {
+static const e64::ui::Layer credits_layer[CREDITS_LAYER_COUNT] = {
 
 	[CREDITS_LAYER_BACK] = { credits_back_placed, CREDITS_BACK_COUNT },
 
-	[CREDITS_LAYER_ROLL] = { .entity = credits_roll_placed, .entity_count = CREDITS_ROLL_COUNT,
+	[CREDITS_LAYER_ROLL] = { .widget = credits_roll_placed, .widget_count = CREDITS_ROLL_COUNT,
 	                          .has_scissor = true,
 	                          .scissor_x = 0.0f, .scissor_y = CREDITS_CLIP_Y,
 	                          .scissor_w = 320.0f, .scissor_h = CREDITS_CLIP_H },
@@ -190,7 +190,7 @@ static const e64::scene2d::Layer credits_layer[CREDITS_LAYER_COUNT] = {
 	[CREDITS_LAYER_COVER] = { credits_cover_placed, CREDITS_COVER_COUNT },
 };
 
-const e64::scene2d::Def credits_scene2d = { .layer = credits_layer, .layer_count = CREDITS_LAYER_COUNT };
+const e64::ui::Def credits_ui = { credits_layer, CREDITS_LAYER_COUNT };
 
 
 /* The whole entry is the black cover, dither noise included, dropping its
@@ -257,6 +257,6 @@ void credits_ui_updateScroll(float dt)
 		credits_carry = 0.0f;
 	}
 
-	e64::Entity2D *roll = e64::scene2d::getEntity(e64::scene2d::get(), CREDITS_LAYER_ROLL, CREDITS_ROLL);
+	e64::Widget *roll = e64::ui::getWidget(e64::ui::get(), CREDITS_LAYER_ROLL, CREDITS_ROLL);
 	roll->position.y = CREDITS_BASE_Y - credits_offset;
 }

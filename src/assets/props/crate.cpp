@@ -53,27 +53,27 @@ static const e64::Sound::Def *const crate_sound[] = {
 
 const e64::Prefab3D green_crate = {
 	.type = e64::prefab3d::PREFAB3D_PROP,
-	.model = green_crate_model,
-	.sound = crate_sound,
-	.sound_count = 4,
+	.mesh = { .model = green_crate_model },
 	.collider = &green_crate_collider,
 	.prop = &crate_body,
+	.sound = crate_sound,
+	.sound_count = 4,
 };
 
 const e64::Prefab3D yellow_crate = {
 	.type = e64::prefab3d::PREFAB3D_PROP,
-	.model = yellow_crate_model,
-	.sound = crate_sound,
-	.sound_count = 4,
+	.mesh = { .model = yellow_crate_model },
 	.collider = &yellow_crate_collider,
 	.prop = &crate_body,
+	.sound = crate_sound,
+	.sound_count = 4,
 };
 
 const e64::Prefab3D red_crate = {
 	.type = e64::prefab3d::PREFAB3D_PROP,
-	.model = red_crate_model,
-	.sound = crate_sound,
-	.sound_count = 4,
+	.mesh = { .model = red_crate_model },
 	.collider = &red_crate_collider,
 	.prop = &crate_body,
+	.sound = crate_sound,
+	.sound_count = 4,
 };

@@ -4,6 +4,8 @@
 #include "game/e64_game_states.h"
 
 
+namespace gameState {
+
 enum {
 
 	INTRO,
@@ -11,13 +13,15 @@ enum {
 	CREDITS,
 	GAMEPLAY3D,
 	GAMEPLAY2D,
-	GAMEPLAY3D_PAUSE,
+	PAUSE,
 	GAME_OVER,
-	STATE_COUNT,
+	COUNT,
 
 };
 
-extern const e64::Game::State::Def game_states[STATE_COUNT];
+extern const e64::Game::State::Def table[COUNT];
+
+}
 
 
 #endif

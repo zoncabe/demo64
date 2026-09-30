@@ -1,7 +1,4 @@
-/*
-	The demo's screens. The engine opens none on its own: whoever wants one
-	asks for it, and these are the ones this game asks for.
-*/
+
 #include "viewport/demo_viewport.h"
 
 

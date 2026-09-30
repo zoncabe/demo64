@@ -1,6 +1,6 @@
 #include "assets/props/brew64_flag.h"
 
-/* The flag hangs from a pole (its own prefab); the scene places the pair. */
+/* The flag hangs from the flagpole (its own prefab); the scene places the pair. */
 const e64::Cloth::Def brew64_flag_cloth = {
 	.mesh_path = "rom:/collision/brew_flag.collision",
 	/* Jakobsen's paper: damped Verlet x' = 1.99x - 0.99x* (damping 0.01) and
@@ -25,8 +25,8 @@ static const e64::Sound::Def *const brew64_flag_sound[] = { &brew64_flag_flappin
 
 const e64::Prefab3D brew64_flag = {
 	.type = e64::prefab3d::PREFAB3D_CLOTH,
-	.model = brew64_flag_model,
+	.mesh = { .model = brew64_flag_model },
+	.cloth = &brew64_flag_cloth,
 	.sound = brew64_flag_sound,
 	.sound_count = 1,
-	.cloth = &brew64_flag_cloth,
 };

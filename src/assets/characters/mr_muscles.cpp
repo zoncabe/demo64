@@ -161,16 +161,17 @@ _Static_assert(MM_ANIM_JUMP_R == MM_ANIM_JUMP_L + 1, "jump L/R must be contiguou
 _Static_assert(MM_ANIM_FALL_R == MM_ANIM_FALL_L + 1, "fall L/R must be contiguous (character3d_animation reads L+1)");
 _Static_assert(MM_ANIM_LAND_R == MM_ANIM_LAND_L + 1, "land L/R must be contiguous (character3d_animation reads L+1)");
 
+static const e64::Animation::Def mr_muscles_animation = {
+	.clip = mr_muscles_clips,
+	.node = mr_muscles_nodes,
+	.clip_count = MM_ANIM_COUNT,
+	.node_count = sizeof(mr_muscles_nodes) / sizeof(mr_muscles_nodes[0]),
+	.buffer_count = MM_SLOT_COUNT,
+	.param_count = e64::character3d::ANIMATION_PARAM_COUNT,
+};
+
 const e64::character3d::AnimationDef mr_muscles_animation_def = {
 
-	.graph = {
-		.clip = mr_muscles_clips,
-		.node = mr_muscles_nodes,
-		.clip_count = MM_ANIM_COUNT,
-		.node_count = sizeof(mr_muscles_nodes) / sizeof(mr_muscles_nodes[0]),
-		.buffer_count = MM_SLOT_COUNT,
-		.param_count = e64::character3d::ANIMATION_PARAM_COUNT,
-	},
 	.settings = &mr_muscles_animation_settings,
 	.walk_animation = MM_ANIM_WALK,
 	.run_animation = MM_ANIM_RUN,
@@ -254,8 +255,6 @@ const e64::character3d::ColliderSettings mr_muscles_collider_settings = {
 const char *const mr_muscles_weapon_meshes[] = { "ak47", "knife", "m1911" };
 
 const e64::character3d::WeaponsDef mr_muscles_weapons_def = {
-	.mesh = mr_muscles_weapon_meshes,
-	.mesh_count = 3,
 	/* Slots in declaration order: waist, back, melee. */
 	/* Out for measuring: the meshes stay registered, so the three weapon
 	   parts of the model start hidden and nothing equips them. */
@@ -477,8 +476,13 @@ const e64::character3d::Def mr_muscles_character_def = {
 
 const e64::Prefab3D mr_muscles = {
 	.type = e64::prefab3d::PREFAB3D_CHARACTER,
-	.model = mr_muscles_model,
+	.mesh = {
+		.model = mr_muscles_model,
+		.animation = &mr_muscles_animation,
+		.part = mr_muscles_weapon_meshes,
+		.part_count = 3,
+	},
+	.character = &mr_muscles_character_def,
 	.sound = mr_muscles_sounds,
 	.sound_count = MM_SOUND_COUNT,
-	.character = &mr_muscles_character_def,
 };

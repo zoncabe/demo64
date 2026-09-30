@@ -54,27 +54,27 @@ static const e64::Sound::Def *const ball_sound[] = {
 
 const e64::Prefab3D red_ball = {
 	.type = e64::prefab3d::PREFAB3D_PROP,
-	.model = red_ball_model,
-	.sound = ball_sound,
-	.sound_count = 4,
+	.mesh = { .model = red_ball_model },
 	.collider = &red_ball_collider,
 	.prop = &ball_body,
+	.sound = ball_sound,
+	.sound_count = 4,
 };
 
 const e64::Prefab3D yellow_ball = {
 	.type = e64::prefab3d::PREFAB3D_PROP,
-	.model = yellow_ball_model,
-	.sound = ball_sound,
-	.sound_count = 4,
+	.mesh = { .model = yellow_ball_model },
 	.collider = &yellow_ball_collider,
 	.prop = &ball_body,
+	.sound = ball_sound,
+	.sound_count = 4,
 };
 
 const e64::Prefab3D green_ball = {
 	.type = e64::prefab3d::PREFAB3D_PROP,
-	.model = green_ball_model,
-	.sound = ball_sound,
-	.sound_count = 4,
+	.mesh = { .model = green_ball_model },
 	.collider = &green_ball_collider,
 	.prop = &ball_body,
+	.sound = ball_sound,
+	.sound_count = 4,
 };

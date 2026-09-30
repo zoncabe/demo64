@@ -1,5 +1,5 @@
-#ifndef SCENE_H
-#define SCENE_H
+#ifndef SCENE3D_H
+#define SCENE3D_H
 
 #include "scene3d/e64_scene3d.h"
 

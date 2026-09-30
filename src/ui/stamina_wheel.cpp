@@ -224,7 +224,7 @@ static void staminaWheel_setInput(e64::Particle *particle, uint8_t fb_index)
 		particle->buffer.s8[0].colorA[i] = (uint8_t)flash;
 	}
 
-	const T3DSkeleton *skeleton = &character->animation.graph.main;
+	const T3DSkeleton *skeleton = &character->animation.graph->main;
 	if (wheel->bone < 0) {
 		wheel->bone = (int16_t)t3d_skeleton_find_bone((T3DSkeleton *)skeleton, STAMINA_WHEEL_BONE);
 		if (wheel->bone < 0) { particle->visible = false; return; }

@@ -35,17 +35,23 @@ assets_collision = filesystem/collision/room.collision \
 # The audio is left uncompressed.
 AUDIOCONV_FLAGS = --wav-compress 0
 
-# Xolonium is wide: --display squeezes the glyphs to 75% without touching
-# their height. The five Xolonium .ttf are the same typeface, since mkfont
-# takes the output name from the input file: one copy is needed per size.
-XOLONIUM_FLAGS = --display 320x240,2:1
+# The screens this demo plays on (see engine.mk): every font is rasterized
+# once per display, shaped to its pixel, under filesystem/fonts/<WxH>/.
+FONT_DISPLAYS = 320x240,4:3 640x240,4:3
 
-filesystem/fonts/DroidSans.font64:  MKFONT_FLAGS += --size 10
-filesystem/fonts/Xolonium10.font64: MKFONT_FLAGS += --size 10 $(XOLONIUM_FLAGS)
-filesystem/fonts/Xolonium14.font64: MKFONT_FLAGS += --size 14 $(XOLONIUM_FLAGS)
-filesystem/fonts/Xolonium20.font64: MKFONT_FLAGS += --size 20 $(XOLONIUM_FLAGS)
-filesystem/fonts/Xolonium40.font64: MKFONT_FLAGS += --size 43 $(XOLONIUM_FLAGS)
-filesystem/fonts/Xolonium60.font64: MKFONT_FLAGS += --size 60 $(XOLONIUM_FLAGS)
+# Xolonium is wide: on every display it goes at an aspect one and a half
+# times the screen's, which squeezes the glyphs without touching their
+# height. The five Xolonium .ttf are the same typeface, since mkfont takes
+# the output name from the input file: one copy is needed per size.
+filesystem/fonts/320x240/Xolonium%.font64: MKFONT_DISPLAY = 320x240,2:1
+filesystem/fonts/640x240/Xolonium%.font64: MKFONT_DISPLAY = 640x240,2:1
+
+filesystem/fonts/%/DroidSans.font64:  MKFONT_FLAGS += --size 10
+filesystem/fonts/%/Xolonium10.font64: MKFONT_FLAGS += --size 10
+filesystem/fonts/%/Xolonium14.font64: MKFONT_FLAGS += --size 14
+filesystem/fonts/%/Xolonium20.font64: MKFONT_FLAGS += --size 20
+filesystem/fonts/%/Xolonium40.font64: MKFONT_FLAGS += --size 43
+filesystem/fonts/%/Xolonium60.font64: MKFONT_FLAGS += --size 60
 
 # The 2D characters' frames are palette art: CI8 keeps them at a quarter of
 # the RGBA32 size in RAM.

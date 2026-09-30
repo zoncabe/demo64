@@ -1,11 +1,10 @@
 #ifndef MAIN_MENU_UI_H
 #define MAIN_MENU_UI_H
 
-#include "scene2d/e64_scene2d.h"
-#include "ui/e64_ui_animation.h"
+#include "ui/e64_ui.h"
 
 
-extern const e64::scene2d::Def main_menu_scene2d;
+extern const e64::ui::Def main_menu_ui;
 
 /* Applied every frame: follows the cursor. */
 extern const e64::UIAnimation main_menu_idle;

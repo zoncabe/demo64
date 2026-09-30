@@ -11,6 +11,6 @@ const e64::collider::Def pole_collider = { pole_shapes, 1 };
 
 const e64::Prefab3D pole = {
 	.type = e64::prefab3d::PREFAB3D_PROP,
-	.model = pole_model,
+	.mesh = { .model = pole_model },
 	.collider = &pole_collider,
 };

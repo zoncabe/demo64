@@ -26,44 +26,44 @@ typedef enum {
 
 	MAIN_MENU_COUNT,
 
-} MainMenuEntity;
+} MainMenuWidget;
 
 
-static const e64::Prefab2D main_menu_prefab[MAIN_MENU_COUNT] = {
+static const e64::Graphic main_menu_graphic[MAIN_MENU_COUNT] = {
 
-	[MAIN_MENU_BG] = { .type = e64::prefab2d::PREFAB2D_WIDGET, .graphic = { .type = e64::Graphic::RECTANGLE, .rectangle = { .fill = e64::Rectangle::GRADIENT, .gradient ={ RGBA32(201, 121, 25, 255), RGBA32(223, 175, 117, 255), RGBA32(223, 175, 117, 255), RGBA32(201, 121, 25, 255) } } } },
-	[MAIN_MENU_TITLE] = { .type = e64::prefab2d::PREFAB2D_WIDGET, .graphic = { .type = e64::Graphic::TEXT, .text = { XOLONIUM_40, MENU_STYLE_NORMAL, "Demo 64", &h40_parms } } },
-	[MAIN_MENU_PLAY] = { .type = e64::prefab2d::PREFAB2D_WIDGET, .graphic = { .type = e64::Graphic::TEXT, .text = { XOLONIUM_20, MENU_STYLE_NORMAL, "Play", &h20_parms } } },
-	[MAIN_MENU_PLAY_2D] = { .type = e64::prefab2d::PREFAB2D_WIDGET, .graphic = { .type = e64::Graphic::TEXT, .text = { XOLONIUM_20, MENU_STYLE_NORMAL, "Play 2D", &h20_parms } } },
-	[MAIN_MENU_CREDITS] = { .type = e64::prefab2d::PREFAB2D_WIDGET, .graphic = { .type = e64::Graphic::TEXT, .text = { XOLONIUM_20, MENU_STYLE_NORMAL, "Credits", &h20_parms } } },
-	[MAIN_MENU_HINT_MOVE] = { .type = e64::prefab2d::PREFAB2D_WIDGET, .graphic = { .type = e64::Graphic::TEXT, .text = { XOLONIUM_14, 0, "Move", &h14_parms } } },
-	[MAIN_MENU_HINT_SELECT] = { .type = e64::prefab2d::PREFAB2D_WIDGET, .graphic = { .type = e64::Graphic::TEXT, .text = { XOLONIUM_14, 0, "Select", &h14_parms } } },
-	[MAIN_MENU_BTN_A] = { .type = e64::prefab2d::PREFAB2D_WIDGET, .graphic = { .type = e64::Graphic::SPRITE, .sprite = { .path = "rom:/sprites/core/AButton.sprite" } } },
-	[MAIN_MENU_D_UP] = { .type = e64::prefab2d::PREFAB2D_WIDGET, .graphic = { .type = e64::Graphic::SPRITE, .sprite = { .path = "rom:/sprites/core/DUp.sprite" } } },
-	[MAIN_MENU_D_DOWN] = { .type = e64::prefab2d::PREFAB2D_WIDGET, .graphic = { .type = e64::Graphic::SPRITE, .sprite = { .path = "rom:/sprites/core/DDown.sprite" } } },
-	[MAIN_MENU_GORILLA] = { .type = e64::prefab2d::PREFAB2D_WIDGET, .graphic = { .type = e64::Graphic::SPRITE, .sprite = { .path = "rom:/sprites/title/gorilla.rgba32.sprite" } } },
+	[MAIN_MENU_BG] = { .type = e64::Graphic::RECTANGLE, .rectangle = { .fill = e64::Rectangle::GRADIENT, .gradient ={ RGBA32(201, 121, 25, 255), RGBA32(223, 175, 117, 255), RGBA32(223, 175, 117, 255), RGBA32(201, 121, 25, 255) } } },
+	[MAIN_MENU_TITLE] = { .type = e64::Graphic::TEXT, .text = { XOLONIUM_40, MENU_STYLE_NORMAL, "Demo 64", &h40_parms } },
+	[MAIN_MENU_PLAY] = { .type = e64::Graphic::TEXT, .text = { XOLONIUM_20, MENU_STYLE_NORMAL, "Play", &h20_parms } },
+	[MAIN_MENU_PLAY_2D] = { .type = e64::Graphic::TEXT, .text = { XOLONIUM_20, MENU_STYLE_NORMAL, "Play 2D", &h20_parms } },
+	[MAIN_MENU_CREDITS] = { .type = e64::Graphic::TEXT, .text = { XOLONIUM_20, MENU_STYLE_NORMAL, "Credits", &h20_parms } },
+	[MAIN_MENU_HINT_MOVE] = { .type = e64::Graphic::TEXT, .text = { XOLONIUM_14, 0, "Move", &h14_parms } },
+	[MAIN_MENU_HINT_SELECT] = { .type = e64::Graphic::TEXT, .text = { XOLONIUM_14, 0, "Select", &h14_parms } },
+	[MAIN_MENU_BTN_A] = { .type = e64::Graphic::SPRITE, .sprite = { .path = "rom:/sprites/core/AButton.sprite" } },
+	[MAIN_MENU_D_UP] = { .type = e64::Graphic::SPRITE, .sprite = { .path = "rom:/sprites/core/DUp.sprite" } },
+	[MAIN_MENU_D_DOWN] = { .type = e64::Graphic::SPRITE, .sprite = { .path = "rom:/sprites/core/DDown.sprite" } },
+	[MAIN_MENU_GORILLA] = { .type = e64::Graphic::SPRITE, .sprite = { .path = "rom:/sprites/title/gorilla.rgba32.sprite" } },
 };
 
-static const e64::scene2d::Entity main_menu_placed[MAIN_MENU_COUNT] = {
+static const e64::ui::WidgetDef main_menu_placed[MAIN_MENU_COUNT] = {
 
-	[MAIN_MENU_BG] = { &main_menu_prefab[MAIN_MENU_BG], { 0.0f, 0.0f }, { 320.0f, 240.0f } },
-	[MAIN_MENU_TITLE] = { &main_menu_prefab[MAIN_MENU_TITLE], { 43.0f, 65.0f } },
-	[MAIN_MENU_PLAY] = { &main_menu_prefab[MAIN_MENU_PLAY], { 45.0f, 137.0f } },
-	[MAIN_MENU_PLAY_2D] = { &main_menu_prefab[MAIN_MENU_PLAY_2D], { 45.0f, 162.0f } },
-	[MAIN_MENU_CREDITS] = { &main_menu_prefab[MAIN_MENU_CREDITS], { 45.0f, 187.0f } },
-	[MAIN_MENU_HINT_MOVE] = { &main_menu_prefab[MAIN_MENU_HINT_MOVE], { 65.0f, 225.0f } },
-	[MAIN_MENU_HINT_SELECT] = { &main_menu_prefab[MAIN_MENU_HINT_SELECT], { 115.0f, 225.0f } },
-	[MAIN_MENU_BTN_A] = { &main_menu_prefab[MAIN_MENU_BTN_A], { 102.0f, 216.0f }, { 0.60f, 0.60f } },
-	[MAIN_MENU_D_UP] = { &main_menu_prefab[MAIN_MENU_D_UP], { 43.0f, 217.0f }, { 0.48f, 0.48f } },
-	[MAIN_MENU_D_DOWN] = { &main_menu_prefab[MAIN_MENU_D_DOWN], { 53.0f, 217.0f }, { 0.48f, 0.48f } },
-	[MAIN_MENU_GORILLA] = { &main_menu_prefab[MAIN_MENU_GORILLA], { 170.0f, 0.0f }, { 1.00f, 1.00f } },
+	[MAIN_MENU_BG] = { .position = { 0.0f, 0.0f }, .scale = { 320.0f, 240.0f }, .graphic = &main_menu_graphic[MAIN_MENU_BG] },
+	[MAIN_MENU_TITLE] = { .position = { 43.0f, 65.0f }, .graphic = &main_menu_graphic[MAIN_MENU_TITLE] },
+	[MAIN_MENU_PLAY] = { .position = { 45.0f, 137.0f }, .graphic = &main_menu_graphic[MAIN_MENU_PLAY] },
+	[MAIN_MENU_PLAY_2D] = { .position = { 45.0f, 162.0f }, .graphic = &main_menu_graphic[MAIN_MENU_PLAY_2D] },
+	[MAIN_MENU_CREDITS] = { .position = { 45.0f, 187.0f }, .graphic = &main_menu_graphic[MAIN_MENU_CREDITS] },
+	[MAIN_MENU_HINT_MOVE] = { .position = { 65.0f, 225.0f }, .graphic = &main_menu_graphic[MAIN_MENU_HINT_MOVE] },
+	[MAIN_MENU_HINT_SELECT] = { .position = { 115.0f, 225.0f }, .graphic = &main_menu_graphic[MAIN_MENU_HINT_SELECT] },
+	[MAIN_MENU_BTN_A] = { .position = { 102.0f, 216.0f }, .scale = { 0.60f, 0.60f }, .graphic = &main_menu_graphic[MAIN_MENU_BTN_A] },
+	[MAIN_MENU_D_UP] = { .position = { 43.0f, 217.0f }, .scale = { 0.48f, 0.48f }, .graphic = &main_menu_graphic[MAIN_MENU_D_UP] },
+	[MAIN_MENU_D_DOWN] = { .position = { 53.0f, 217.0f }, .scale = { 0.48f, 0.48f }, .graphic = &main_menu_graphic[MAIN_MENU_D_DOWN] },
+	[MAIN_MENU_GORILLA] = { .position = { 170.0f, 0.0f }, .scale = { 1.00f, 1.00f }, .graphic = &main_menu_graphic[MAIN_MENU_GORILLA] },
 };
 
-static const e64::scene2d::Layer main_menu_layer[] = {
+static const e64::ui::Layer main_menu_layer[] = {
 	{ main_menu_placed, MAIN_MENU_COUNT },
 };
 
-const e64::scene2d::Def main_menu_scene2d = { .layer = main_menu_layer, .layer_count = 1 };
+const e64::ui::Def main_menu_ui = { main_menu_layer, 1 };
 
 
 /* The entry the cursor stands on is the one drawn in yellow. */

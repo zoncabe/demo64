@@ -29,42 +29,42 @@ typedef enum {
 
 	PAUSE_COUNT,
 
-} PauseEntity;
+} PauseWidget;
 
 
-static const e64::Prefab2D pause_prefab[PAUSE_COUNT] = {
+static const e64::Graphic pause_graphic[PAUSE_COUNT] = {
 
-	[PAUSE_BG] = { .type = e64::prefab2d::PREFAB2D_WIDGET, .graphic = { .type = e64::Graphic::RECTANGLE, .rectangle = { .fill = e64::Rectangle::GRADIENT } } },
-	[PAUSE_CONTINUE] = { .type = e64::prefab2d::PREFAB2D_WIDGET, .graphic = { .type = e64::Graphic::TEXT, .text = { XOLONIUM_20, MENU_STYLE_NORMAL, "Continue", &h20_menu_parms } } },
-	[PAUSE_QUIT] = { .type = e64::prefab2d::PREFAB2D_WIDGET, .graphic = { .type = e64::Graphic::TEXT, .text = { XOLONIUM_20, MENU_STYLE_NORMAL, "Quit", &h20_menu_parms } } },
-	[PAUSE_HINT_MOVE] = { .type = e64::prefab2d::PREFAB2D_WIDGET, .graphic = { .type = e64::Graphic::TEXT, .text = { XOLONIUM_14, 0, "Move", &h14_parms } } },
-	[PAUSE_HINT_SELECT] = { .type = e64::prefab2d::PREFAB2D_WIDGET, .graphic = { .type = e64::Graphic::TEXT, .text = { XOLONIUM_14, 0, "Select", &h14_parms } } },
-	[PAUSE_HINT_BACK] = { .type = e64::prefab2d::PREFAB2D_WIDGET, .graphic = { .type = e64::Graphic::TEXT, .text = { XOLONIUM_14, 0, "Back", &h14_parms } } },
-	[PAUSE_D_UP] = { .type = e64::prefab2d::PREFAB2D_WIDGET, .graphic = { .type = e64::Graphic::SPRITE, .sprite = { .path = "rom:/sprites/core/DUp.sprite" } } },
-	[PAUSE_D_DOWN] = { .type = e64::prefab2d::PREFAB2D_WIDGET, .graphic = { .type = e64::Graphic::SPRITE, .sprite = { .path = "rom:/sprites/core/DDown.sprite" } } },
-	[PAUSE_BTN_A] = { .type = e64::prefab2d::PREFAB2D_WIDGET, .graphic = { .type = e64::Graphic::SPRITE, .sprite = { .path = "rom:/sprites/core/AButton.sprite" } } },
-	[PAUSE_BTN_B] = { .type = e64::prefab2d::PREFAB2D_WIDGET, .graphic = { .type = e64::Graphic::SPRITE, .sprite = { .path = "rom:/sprites/core/BButton.sprite" } } },
+	[PAUSE_BG] = { .type = e64::Graphic::RECTANGLE, .rectangle = { .fill = e64::Rectangle::GRADIENT } },
+	[PAUSE_CONTINUE] = { .type = e64::Graphic::TEXT, .text = { XOLONIUM_20, MENU_STYLE_NORMAL, "Continue", &h20_menu_parms } },
+	[PAUSE_QUIT] = { .type = e64::Graphic::TEXT, .text = { XOLONIUM_20, MENU_STYLE_NORMAL, "Quit", &h20_menu_parms } },
+	[PAUSE_HINT_MOVE] = { .type = e64::Graphic::TEXT, .text = { XOLONIUM_14, 0, "Move", &h14_parms } },
+	[PAUSE_HINT_SELECT] = { .type = e64::Graphic::TEXT, .text = { XOLONIUM_14, 0, "Select", &h14_parms } },
+	[PAUSE_HINT_BACK] = { .type = e64::Graphic::TEXT, .text = { XOLONIUM_14, 0, "Back", &h14_parms } },
+	[PAUSE_D_UP] = { .type = e64::Graphic::SPRITE, .sprite = { .path = "rom:/sprites/core/DUp.sprite" } },
+	[PAUSE_D_DOWN] = { .type = e64::Graphic::SPRITE, .sprite = { .path = "rom:/sprites/core/DDown.sprite" } },
+	[PAUSE_BTN_A] = { .type = e64::Graphic::SPRITE, .sprite = { .path = "rom:/sprites/core/AButton.sprite" } },
+	[PAUSE_BTN_B] = { .type = e64::Graphic::SPRITE, .sprite = { .path = "rom:/sprites/core/BButton.sprite" } },
 };
 
-static const e64::scene2d::Entity pause_placed[PAUSE_COUNT] = {
+static const e64::ui::WidgetDef pause_placed[PAUSE_COUNT] = {
 
-	[PAUSE_BG] = { &pause_prefab[PAUSE_BG], { 0.0f, 0.0f }, { 320.0f, 240.0f } },
-	[PAUSE_CONTINUE] = { &pause_prefab[PAUSE_CONTINUE], { 320.0f, 50.0f } },
-	[PAUSE_QUIT] = { &pause_prefab[PAUSE_QUIT], { 320.0f, 80.0f } },
-	[PAUSE_HINT_MOVE] = { &pause_prefab[PAUSE_HINT_MOVE], { 347.0f, 196.0f } },
-	[PAUSE_HINT_SELECT] = { &pause_prefab[PAUSE_HINT_SELECT], { 338.0f, 211.0f } },
-	[PAUSE_HINT_BACK] = { &pause_prefab[PAUSE_HINT_BACK], { 338.0f, 226.0f } },
-	[PAUSE_D_UP] = { &pause_prefab[PAUSE_D_UP], { 320.0f, 186.0f }, { 0.48f, 0.48f } },
-	[PAUSE_D_DOWN] = { &pause_prefab[PAUSE_D_DOWN], { 330.0f, 187.0f }, { 0.48f, 0.48f } },
-	[PAUSE_BTN_A] = { &pause_prefab[PAUSE_BTN_A], { 320.0f, 201.0f }, { 0.60f, 0.60f } },
-	[PAUSE_BTN_B] = { &pause_prefab[PAUSE_BTN_B], { 320.0f, 216.0f }, { 0.60f, 0.60f } },
+	[PAUSE_BG] = { .position = { 0.0f, 0.0f }, .scale = { 320.0f, 240.0f }, .graphic = &pause_graphic[PAUSE_BG] },
+	[PAUSE_CONTINUE] = { .position = { 320.0f, 50.0f }, .graphic = &pause_graphic[PAUSE_CONTINUE] },
+	[PAUSE_QUIT] = { .position = { 320.0f, 80.0f }, .graphic = &pause_graphic[PAUSE_QUIT] },
+	[PAUSE_HINT_MOVE] = { .position = { 347.0f, 196.0f }, .graphic = &pause_graphic[PAUSE_HINT_MOVE] },
+	[PAUSE_HINT_SELECT] = { .position = { 338.0f, 211.0f }, .graphic = &pause_graphic[PAUSE_HINT_SELECT] },
+	[PAUSE_HINT_BACK] = { .position = { 338.0f, 226.0f }, .graphic = &pause_graphic[PAUSE_HINT_BACK] },
+	[PAUSE_D_UP] = { .position = { 320.0f, 186.0f }, .scale = { 0.48f, 0.48f }, .graphic = &pause_graphic[PAUSE_D_UP] },
+	[PAUSE_D_DOWN] = { .position = { 330.0f, 187.0f }, .scale = { 0.48f, 0.48f }, .graphic = &pause_graphic[PAUSE_D_DOWN] },
+	[PAUSE_BTN_A] = { .position = { 320.0f, 201.0f }, .scale = { 0.60f, 0.60f }, .graphic = &pause_graphic[PAUSE_BTN_A] },
+	[PAUSE_BTN_B] = { .position = { 320.0f, 216.0f }, .scale = { 0.60f, 0.60f }, .graphic = &pause_graphic[PAUSE_BTN_B] },
 };
 
-static const e64::scene2d::Layer pause_layer[] = {
+static const e64::ui::Layer pause_layer[] = {
 	{ pause_placed, PAUSE_COUNT },
 };
 
-const e64::scene2d::Def pause_scene2d = { .layer = pause_layer, .layer_count = 1 };
+const e64::ui::Def pause_ui = { pause_layer, 1 };
 
 
 static const float pause_style_continue[] = { MENU_STYLE_SELECTED, MENU_STYLE_NORMAL };

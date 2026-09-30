@@ -207,16 +207,17 @@ _Static_assert(MJ_ANIM_JUMP_R == MJ_ANIM_JUMP_L + 1, "jump L/R must be contiguou
 _Static_assert(MJ_ANIM_FALL_R == MJ_ANIM_FALL_L + 1, "fall L/R must be contiguous (character3d_animation reads L+1)");
 _Static_assert(MJ_ANIM_LAND_R == MJ_ANIM_LAND_L + 1, "land L/R must be contiguous (character3d_animation reads L+1)");
 
+static const e64::Animation::Def miss_jiggles_animation = {
+	.clip = miss_jiggles_clips,
+	.node = miss_jiggles_nodes,
+	.clip_count = MJ_ANIM_COUNT,
+	.node_count = sizeof(miss_jiggles_nodes) / sizeof(miss_jiggles_nodes[0]),
+	.buffer_count = MJ_SLOT_COUNT,
+	.param_count = e64::character3d::ANIMATION_PARAM_COUNT,
+};
+
 const e64::character3d::AnimationDef miss_jiggles_animation_def = {
 
-	.graph = {
-		.clip = miss_jiggles_clips,
-		.node = miss_jiggles_nodes,
-		.clip_count = MJ_ANIM_COUNT,
-		.node_count = sizeof(miss_jiggles_nodes) / sizeof(miss_jiggles_nodes[0]),
-		.buffer_count = MJ_SLOT_COUNT,
-		.param_count = e64::character3d::ANIMATION_PARAM_COUNT,
-	},
 	.settings = &miss_jiggles_animation_settings,
 	.walk_animation = MJ_ANIM_WALK,
 	.run_animation = MJ_ANIM_RUN,
@@ -311,8 +312,6 @@ const e64::character3d::ColliderSettings miss_jiggles_collider_settings = {
 const char *const miss_jiggles_weapon_meshes[] = { "bow" };
 
 const e64::character3d::WeaponsDef miss_jiggles_weapons_def = {
-	.mesh = miss_jiggles_weapon_meshes,
-	.mesh_count = 1,
 	/* Slots in declaration order: waist, back, melee. */
 	.weapon = { NULL, &weapon_bow, NULL },
 };
@@ -614,8 +613,13 @@ const e64::character3d::Def miss_jiggles_character_def = {
 
 const e64::Prefab3D miss_jiggles = {
 	.type = e64::prefab3d::PREFAB3D_CHARACTER,
-	.model = miss_jiggles_model,
+	.mesh = {
+		.model = miss_jiggles_model,
+		.animation = &miss_jiggles_animation,
+		.part = miss_jiggles_weapon_meshes,
+		.part_count = 1,
+	},
+	.character = &miss_jiggles_character_def,
 	.sound = miss_jiggles_sounds,
 	.sound_count = MJ_SOUND_COUNT,
-	.character = &miss_jiggles_character_def,
 };

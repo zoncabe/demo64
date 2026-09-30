@@ -1,16 +1,17 @@
 /*
-	The demo's state table: what each state runs, what it draws and what it
-	does with the controller. The engine brings the machinery; everything named here
-	is content.
+	The game's state table: what each state runs, what it draws and what it
+	does with the controller. The engine brings the machinery and plays the
+	frame of what a state declares; everything named here is content.
 
 	A state leaves by naming where it goes and playing its way out. Every
 	state with a screen holds the switch back until that animation ends.
 */
+#include <libdragon.h>
+
 #include "time/e64_time.h"
 #include "scene3d/e64_scene3d.h"
-#include "physics/e64_physics.h"
-#include "scene/scene.h"
-#include "scene/demo_scene2d.h"
+#include "scene/scene3d.h"
+#include "scene/scene2d.h"
 #include "scene2d/e64_scene2d.h"
 #include "render/e64_render.h"
 #include "ui/e64_ui.h"
@@ -21,33 +22,32 @@
 #include "ui/credits_ui.h"
 #include "ui/stamina_wheel.h"
 #include "menu/e64_menu.h"
-#include "particles/e64_particles.h"
-#include "shaders/e64_water.h"
+#include "menu/e64_menu_control.h"
 #include "player/e64_player.h"
-#include "player/e64_player_control.h"
 #include "controller/e64_controller.h"
-#include "camera/e64_camera3d_control.h"
+#include "camera/e64_camera3d.h"
 #include "debug/e64_debug.h"
 #include "control/controller.h"
 #include "camera/camera.h"
 #include "sound/e64_sound.h"
-#include "sound/e64_prop_sound.h"
 #include "game/e64_game.h"
-#include "viewport/e64_viewport.h"
+#include "viewport/demo_viewport.h"
 #include "game/game_states.h"
 
 
-static bool gameState_canLeave(void) { return !e64::ui::isTransitioning(); }
+namespace gameState {
+
+static bool canLeave(void) { return !e64::ui::isTransitioning(); }
 
 
 /* --- intro -------------------------------------------------------------- */
 
-static void gameState_enterIntro(void)
+static void enterIntro(void)
 {
 	e64::ui::play(&intro_animation, false);
 }
 
-static void gameState_updateIntro(void)
+static void updateIntro(void)
 {
 	/* The intro is its own way out: when the animation ends, so does it. */
 	e64::game::state::set(MAIN_MENU);
@@ -57,18 +57,17 @@ static void gameState_updateIntro(void)
 
 /* --- main menu ---------------------------------------------------------- */
 
-static void gameState_enterMainMenu(void)
+static void enterMainMenu(void)
 {
 	e64::ui::play(&main_menu_enter, false);
 }
 
-static void gameState_updateMainMenu(void)
+static void updateMainMenu(void)
 {
-	e64::menu::control::update();
 	e64::ui::update(&main_menu_idle);
 }
 
-static void gameState_controlMainMenu(void)
+static void controlMainMenu(void)
 {
 	if (e64::ui::isTransitioning()) return;
 
@@ -89,25 +88,21 @@ static void gameState_controlMainMenu(void)
 
 /* --- credits ------------------------------------------------------------ */
 
-static void gameState_enterCredits(void)
+static void enterCredits(void)
 {
 	credits_ui_resetScroll();
 	e64::ui::play(&credits_enter, false);
 }
 
 
-static void gameState_updateCredits(void)
+static void updateCredits(void)
 {
-	e64::menu::control::update();
 	if (e64::ui::isTransitioning()) credits_ui_setScrollVelocity(0.0f);
 	credits_ui_updateScroll(e64::time::get()->delta);
 	e64::ui::update(NULL);
-
-	/* Diagnostic: the frame cost while the credits lag on the controls. */
-	e64::debug::ui::showFPS();
 }
 
-static void gameState_controlCredits(void)
+static void controlCredits(void)
 {
 	if (e64::ui::isTransitioning()) return;
 
@@ -130,9 +125,9 @@ static void gameState_controlCredits(void)
 
 
 
-/* --- gameplay ----------------------------------------------------------- */
+/* --- gameplay 3D -------------------------------------------------------- */
 
-static void gameState_enterGameplay(void)
+static void enterGameplay(void)
 {
 	/* The ear on the camera: heard from where it is seen. */
 	e64::sound::setListenerMode(e64::Sound::LISTENER_CAMERA);
@@ -140,19 +135,17 @@ static void gameState_enterGameplay(void)
 	stamina_wheel_load();
 	e64::ui::play(&gameplay_enter, false);
 }
-static void gameState_exitGameplay(void) { stamina_wheel_unload(); }
+static void exitGameplay(void) { stamina_wheel_unload(); }
 
-static void gameState_updateGameplay(void)
+/* Only what is this game's: the world itself the engine plays from what the
+   state declares. */
+static void updateGameplay(void)
 {
 	e64::Viewport *viewport = e64::viewport::get();
-	float delta = e64::time::get()->delta;
-	uint8_t fb_index = viewport->fb_index;
 
-	e64::menu::control::update();
-
-	/* Demo only: the d-pad cycles player 1 through the scene's characters.
-	   Read here and not through a binding, since it is not a control the
-	   engine offers. */
+	/* The d-pad cycles player 1 through the scene's characters. Read here
+	   and not through a binding, since it is not a control the engine
+	   offers. */
 	{
 		const e64::Controller *pad = &e64::controller::get()[e64::PLAYER_1];
 		int8_t direction = e64::controller::isPressed(pad, e64::BTN_D_UP) ? +1
@@ -168,156 +161,146 @@ static void gameState_updateGameplay(void)
 		}
 	}
 
-	for (int i = 0; i < e64::PLAYER_COUNT; i++)
-		e64::player::setCharacter3DControl((e64::PlayerID)i, viewport);
-	e64::player::update();
-
-	e64::physics::update(e64::scene3d::getPhysics(), delta);
-	e64::propSound::update(e64::scene3d::getPhysics());
-	e64::water::update(delta);
-
-	e64::scene3d::updateCharacters(fb_index);
-
-	/* Simulated props are placed by the solver, so their matrix comes from the
-	   body. Static ones keep the one the load wrote. */
-	e64::Scene3D *scene = e64::scene3d::get();
-	for (int i = 0; i < scene->entity_count; i++)
-		e64::entity3d::setMatrixFromBody(scene->entity[i], fb_index);
-
-	e64::particles::update(fb_index);
-
-	e64::camera3d::control::update(&viewport->camera, viewport->camera.binding, scene, delta);
-	e64::viewport::setPerspectiveCamera();
-
 	e64::ui::update(NULL);
 
 	e64::debug::ui::showFPS();
 }
 
-static void gameState_controlGameplay(void)
+static void controlGameplay(void)
 {
 	e64::menu::Controls menu;
 	e64::menu::control::read(&menu, &e64::controller::get()[menu_binding.player], &menu_binding);
 
 	/* The pause opens with its own transition, so this one has none. */
-	if (menu.pause) e64::game::state::set(GAMEPLAY3D_PAUSE);
+	if (menu.pause) e64::game::state::set(PAUSE);
 }
 
 
 /* --- gameplay 2D -------------------------------------------------------- */
 
-/* Which stage is being played, and which edge the body left the last one
-   through: walking off the right comes in on the next stage's left, walking
-   off the left comes in on the previous stage's right. */
+/* The screens in the order they are walked, wrapping at the ends: off the
+   right edge of one comes in on the left of the next. Each brings the
+   controls that name its body, and where the feet land coming back in from
+   the right. The state declares the first; the others are opened here. */
+static const struct {
+
+	const e64::scene2d::Def *scene;
+	const e64::controls::Def *controls;
+	const e64::Vector2 *back;
+
+} stage[] = {
+
+	{ &scene2d_pixel_a, &controls_pixel_a, &pixel_a_return },
+	{ &scene2d_pixel_b, &controls_pixel_b, &pixel_b_return },
+	{ &scene2d_industry, &controls_industry, &industry_return },
+	{ &scene2d_line, &controls_line, &line_return },
+};
+
+#define STAGE_COUNT (sizeof(stage) / sizeof(stage[0]))
+
+/* Which screen is up, which one the fade is heading to (-1 for none), and
+   whether the body left through the left edge. */
 static uint8_t gameplay2d_stage;
-static bool gameplay2d_enter_from_right;
+static int8_t gameplay2d_next = -1;
+static bool gameplay2d_from_right;
 
-/* The one place a 2D stage is opened. The state declares no scene, so the
-   engine loads none: a single stage is in memory at a time, and crossing an
-   edge frees it before this opens the next.
-
-   The body is seated here too: the 2D binding names no scene entity, since
-   one layout serves the four stages. Coming in from the right it is carried
-   to that stage's return position, and the camera plants itself on it on
-   its first update. */
-static void gameState_loadGameplay2DStage(uint8_t stage)
+static void enterGameplay2D(void)
 {
-	gameplay2d_stage = stage;
+	/* The engine opened the screen the state declares: the first. */
+	gameplay2d_stage = 0;
+	gameplay2d_next = -1;
 
-	const e64::scene2d::Def *scene = stage_getScene(stage);
-	e64::scene2d::load(scene, &controls);
+	e64::ui::play(&gameplay_enter, false);
+}
 
-	e64::Character2D *character = e64::scene2d::getCharacter2D(0);
-	e64::player::setCharacter2D(character, &character2d_binding);
+/* Once the screen is black. The load frees what the frame in flight may
+   still be drawing, so the RDP finishes first; the load seats the player on
+   the body the screen's binding names, and the time it took is no frame. */
+static void changeStage2D(void)
+{
+	rspq_wait();
+	e64::scene2d::load(stage[gameplay2d_next].scene, stage[gameplay2d_next].controls);
 
-	if (gameplay2d_enter_from_right) {
-		character->position = stage_getReturn(stage);
-		gameplay2d_enter_from_right = false;
+	if (gameplay2d_from_right)
+		e64::scene2d::getCharacter2D(0)->position = *stage[gameplay2d_next].back;
+
+	gameplay2d_stage = gameplay2d_next;
+	gameplay2d_next = -1;
+
+	e64::time::reset();
+	e64::ui::play(&gameplay_enter, false);
+}
+
+static void updateGameplay2D(void)
+{
+	e64::ui::update(NULL);
+
+	/* The fade runs to black before the switch. The check goes after the
+	   animation's update, so the frame the fade ends on is drawn from the
+	   new screen's fade, not from the old screen bare. */
+	if (gameplay2d_next >= 0) {
+		if (!e64::ui::isTransitioning()) changeStage2D();
+	}
+	else {
+		const e64::Scene2D *scene = e64::scene2d::get();
+		const e64::Character2D *character = e64::scene2d::getCharacter2D(0);
+
+		/* Off an edge of the stage, which are the camera's limits, the
+		   neighbouring one takes over: once the whole body is past it, since
+		   the view stops at the limit and the body is held there for the
+		   fade. The entity is the drawn frame, centred on the feet. */
+		const e64::Entity2D *drawn = character->entity;
+		float left = drawn->position.x;
+		float right = left + drawn->graphic->sprite.asset->width * drawn->scale.x;
+
+		if (left > scene->camera.limit[e64::camera2d::CAMERA2D_SIDE_RIGHT]) {
+			gameplay2d_next = (gameplay2d_stage + 1) % STAGE_COUNT;
+			gameplay2d_from_right = false;
+		}
+		else if (right < scene->camera.limit[e64::camera2d::CAMERA2D_SIDE_LEFT]) {
+			gameplay2d_next = (gameplay2d_stage + STAGE_COUNT - 1) % STAGE_COUNT;
+			gameplay2d_from_right = true;
+		}
+
+		/* Past the edge there is no floor: driven on, the body would fall
+		   through the fade and drag the view down with it. Nobody drives it
+		   until the next screen's load seats the player again. */
+		if (gameplay2d_next >= 0) {
+			e64::player::init();
+			e64::ui::play(&gameplay_enter, true);
+		}
 	}
 }
 
-static void gameState_enterGameplay2D(void)
+static void controlGameplay2D(void)
 {
-	gameState_loadGameplay2DStage(gameplay2d_stage);
-}
-
-static void gameState_exitGameplay2D(void)
-{
-	e64::player::init();
-	e64::scene2d::unload();
-}
-
-/* The stages run in table order, both ways, wrapping at the ends. */
-static void gameState_changeStage2D(bool forward)
-{
-	uint8_t count = stage_getCount();
-	uint8_t next = forward
-		? (gameplay2d_stage + 1) % count
-		: (gameplay2d_stage + count - 1) % count;
-
-	e64::scene2d::unload();
-	gameState_loadGameplay2DStage(next);
-}
-
-static void gameState_updateGameplay2D(void)
-{
-	float delta = e64::time::get()->delta;
-
-	e64::menu::control::update();
-
-	for (int i = 0; i < e64::PLAYER_COUNT; i++)
-		e64::player::setCharacter2DControl((e64::PlayerID)i);
-	e64::player::update();
-
-	e64::scene2d::updateCharacters(delta);
-
-	e64::Scene2D *scene = e64::scene2d::get();
-	e64::Character2D *character = e64::scene2d::getCharacter2D(0);
-
-	e64::scene2d::updateCamera(character, delta);
-
-	/* Off an edge of the stage, which are the camera's limits, the
-	   neighbouring one takes over. The state does not change: only the stage
-	   under it does. */
-	if (character->position.x > scene->camera.limit[e64::camera2d::CAMERA2D_SIDE_RIGHT]) {
-		gameplay2d_enter_from_right = false;
-		gameState_changeStage2D(true);
-	}
-	else if (character->position.x < scene->camera.limit[e64::camera2d::CAMERA2D_SIDE_LEFT]) {
-		gameplay2d_enter_from_right = true;
-		gameState_changeStage2D(false);
-	}
-
-	e64::debug::ui::showFPS();
-}
-
-static void gameState_controlGameplay2D(void)
-{
-	const e64::Controller *controller = &e64::controller::get()[menu_binding.player];
-
 	e64::menu::Controls menu;
-	e64::menu::control::read(&menu, controller, &menu_binding);
+	e64::menu::control::read(&menu, &e64::controller::get()[menu_binding.player], &menu_binding);
 
-	if (menu.pause) e64::game::state::set(MAIN_MENU);
+	/* The pause opens with its own transition, so this one has none. */
+	if (menu.pause) e64::game::state::set(PAUSE);
 }
 
 
 /* --- pause -------------------------------------------------------------- */
 
-static void gameState_enterPause(void)
+/* One pause over either game: continuing goes back to whichever it was
+   opened from, which the engine remembers. */
+static void enterPause(void)
 {
+	/* The index is the menus', shared: it still holds the main menu's pick. */
+	e64::menu::setIndex(0);
 	e64::ui::play(&pause_enter, false);
 }
 
-static void gameState_updatePause(void)
+static void updatePause(void)
 {
 	e64::Scene3D *scene = e64::scene3d::get();
 
-	e64::menu::control::update();
-
 	/* Matrices are per framebuffer and gameplay only writes the current one, so
 	   the three hold three different instants. Frozen, that reads as a shake:
-	   everything that moves has to fill all three. */
+	   everything that moves has to fill all three. Over the 2D game the lists
+	   are empty and this does nothing. */
 	for (int fb = 0; fb < e64::Viewport::FB_COUNT; fb++) {
 		for (int i = 0; i < scene->character3d_count; i++)
 			e64::entity3d::setMatrix(scene->character[i]->entity, fb);
@@ -329,7 +312,7 @@ static void gameState_updatePause(void)
 	e64::ui::update(&pause_idle);
 }
 
-static void gameState_controlPause(void)
+static void controlPause(void)
 {
 	if (e64::ui::isTransitioning()) return;
 
@@ -337,7 +320,7 @@ static void gameState_controlPause(void)
 	e64::menu::control::read(&menu, &e64::controller::get()[menu_binding.player], &menu_binding);
 
 	if (menu.pause || menu.cancel || (menu.confirm && e64::menu::getIndex() == 0)) {
-		e64::game::state::set(GAMEPLAY3D);
+		e64::game::state::set(e64::game::get()->state.base);
 		e64::ui::play(&pause_enter, true);
 		e64::menu::setIndex(0);
 		return;
@@ -354,79 +337,90 @@ static void gameState_controlPause(void)
 	if (menu.down) e64::menu::moveIndex(1, 1);
 }
 
+static const e64::Game::State::Def *const pause_bases[] = {
+	&table[GAMEPLAY3D],
+	&table[GAMEPLAY2D],
+};
+
 
 /* --- game over ---------------------------------------------------------- */
 
-static void gameState_updateGameOver(void)
+static void updateGameOver(void)
 {
 }
 
 
 /* --- the table ---------------------------------------------------------- */
 
-const e64::Game::State::Def game_states[STATE_COUNT] = {
+const e64::Game::State::Def table[COUNT] = {
 
 	[INTRO] = {
-		.update = gameState_updateIntro,
-		.onEnter = gameState_enterIntro,
-		.canLeave = gameState_canLeave,
-		.scene2d = &intro_scene2d,
-		.viewport = SCREEN_320x240,
+		.update = updateIntro,
+		.onEnter = enterIntro,
+		.canLeave = canLeave,
+		.ui = &intro_ui,
+		.viewport = &viewport_320x240,
 	},
 
 	[MAIN_MENU] = {
-		.update = gameState_updateMainMenu,
-		.onEnter = gameState_enterMainMenu,
-		.canLeave = gameState_canLeave,
-		.control = gameState_controlMainMenu,
-		.scene2d = &main_menu_scene2d,
-		.viewport = SCREEN_320x240,
+		.update = updateMainMenu,
+		.onEnter = enterMainMenu,
+		.canLeave = canLeave,
+		.control = controlMainMenu,
+		.ui = &main_menu_ui,
+		.viewport = &viewport_320x240,
 	},
 
 	[CREDITS] = {
-		.update = gameState_updateCredits,
-		.onEnter = gameState_enterCredits,
-		.canLeave = gameState_canLeave,
-		.control = gameState_controlCredits,
-		.scene2d = &credits_scene2d,
-		.viewport = SCREEN_320x240,
+		.update = updateCredits,
+		.onEnter = enterCredits,
+		.canLeave = canLeave,
+		.control = controlCredits,
+		.ui = &credits_ui,
+		.viewport = &viewport_320x240,
 	},
 
 	[GAMEPLAY3D] = {
-		.update = gameState_updateGameplay,
-		.onEnter = gameState_enterGameplay,
-		.onExit = gameState_exitGameplay,
-		.canLeave = gameState_canLeave,
-		.control = gameState_controlGameplay,
+		.update = updateGameplay,
+		.onEnter = enterGameplay,
+		.onExit = exitGameplay,
+		.canLeave = canLeave,
+		.control = controlGameplay,
 		.scene3d = &scene3d,
-		.scene2d = &gameplay_scene2d,
+		.ui = &gameplay_ui,
 		.controls = &controls,
-		.viewport = SCREEN_320x240,
+		.viewport = &viewport_320x240,
 	},
 
-	/* No scene declared: the stage it plays is opened by the state itself, one
-	   at a time, so the seat is bound there too. */
+	/* The first screen is the state's; the update opens the next ones in its
+	   place, each with its own controls. */
 	[GAMEPLAY2D] = {
-		.update = gameState_updateGameplay2D,
-		.onEnter = gameState_enterGameplay2D,
-		.onExit = gameState_exitGameplay2D,
-		.control = gameState_controlGameplay2D,
-		.viewport = SCREEN_640x240,
+		.update = updateGameplay2D,
+		.onEnter = enterGameplay2D,
+		.canLeave = canLeave,
+		.control = controlGameplay2D,
+		.scene2d = &scene2d_pixel_a,
+		.ui = &gameplay_ui,
+		.controls = &controls_pixel_a,
+		.viewport = &viewport_640x240,
 	},
 
-	[GAMEPLAY3D_PAUSE] = {
-		.update = gameState_updatePause,
-		.onEnter = gameState_enterPause,
-		.canLeave = gameState_canLeave,
-		.control = gameState_controlPause,
-		.scene2d = &pause_scene2d,
-		.viewport = SCREEN_320x240,
-		.overlay_of = &game_states[GAMEPLAY3D],
+	[PAUSE] = {
+		.update = updatePause,
+		.onEnter = enterPause,
+		.canLeave = canLeave,
+		.control = controlPause,
+		.ui = &pause_ui,
+		.viewport = &viewport_320x240,
+		.overlay_of = pause_bases,
+		.overlay_count = sizeof(pause_bases) / sizeof(pause_bases[0]),
 	},
 
 	[GAME_OVER] = {
-		.update = gameState_updateGameOver,
-		.viewport = SCREEN_320x240,
+		.update = updateGameOver,
+		.viewport = &viewport_320x240,
 	},
 
 };
+
+}

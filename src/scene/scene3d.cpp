@@ -1,5 +1,5 @@
 #include "scene3d/e64_scene3d.h"
-#include "scene/scene.h"
+#include "scene/scene3d.h"
 #include "camera/camera.h"
 #include "assets/characters/miss_jiggles.h"
 #include "assets/characters/mr_muscles.h"
@@ -7,7 +7,7 @@
 #include "assets/props/lamp_post.h"
 #include "assets/props/crate.h"
 #include "assets/props/ball.h"
-#include "assets/props/brew64_flag.h"
+#include "assets/props/flagpole.h"
 #include "assets/props/ladder.h"
 #include "assets/levels/pool.h"
 
@@ -40,9 +40,9 @@ static const e64::light::Def light = {
 static const e64::fog::Def fog = {
 
 	.color = {70, 80, 100, 0xFF},
-	.near = 10.0f,
-	.far = 45.0f,
-	.enabled = false,
+	.near = 5.0f,
+	.far = 55.0f,
+	.enabled = true,
 };
 
 
@@ -55,14 +55,14 @@ e64::scene3d::Entity scene_entities[] = {
 	{ &red_crate, {12.0f, 10.0f, 0.50f} },
 	{ &yellow_crate, {12.0f, 10.0f, 1.52f} },
 	{ &green_crate, {12.0f, 10.0f, 2.54f} },
-	
+
 	{ &red_ball, {12.0f, 14.0f, 0.50f} },
 	{ &yellow_ball, {12.0f, 14.0f, 1.40f}, {0}, {0.7f, 0.7f, 0.7f} },
 	{ &green_ball, {12.0f, 14.0f, 2.00f}, {0}, {0.45f, 0.45f, 0.45f} },
-	
+
 	{ &ladder, {12.5f, 14.78f, -0.02f}, {0}, {1.0f, 1.0f, 1.03f} },
 	{ &ladder, {12.5f, 14.78f, 5.13f}, {0}, {1.0f, 1.0f, 1.03f} },
-	
+
 	{ &lamp_post, { 13.0f, 0.0f, 0.0f} },
 	{ &lamp_post, {-13.0f, 0.0f, 0.0f} },
 
@@ -79,7 +79,7 @@ e64::scene3d::Def scene3d = {
 	.fog = &fog,
 	.camera = &camera_def,
 
-	.wind = { 2.2f, 0.5f, 0.5f },
+	.wind = { 180.0f, 50.0f, 50.0f },
 
 	.entity = scene_entities,
 	.entity_count = sizeof(scene_entities) / sizeof(scene_entities[0]),

@@ -16,15 +16,16 @@ static const e64::Font::Style title_styles[] = {
 #define STYLES(s) s, sizeof(s)/sizeof(*s)
 
 /* Indexed by font id, in the order fonts.h numbers them: slot 0 is the one
-   rdpq reserves and stays empty. */
+   rdpq reserves and stays empty. The %s is the display: the engine loads
+   the copy rasterized for the video mode in force. */
 const e64::Font::Def fonts[FONT_COUNT] = {
 
 	/* 0 */ { NULL, NULL, 0 },
-	/* DROID_SANS */ { "rom:/fonts/DroidSans" ".font64", NULL, 0 },
-	/* XOLONIUM_10 */ { "rom:/fonts/Xolonium10" ".font64", NULL, 0 },
-	/* XOLONIUM_14 */ { "rom:/fonts/Xolonium14" ".font64", STYLES(menu_styles) },
-	/* XOLONIUM_20 */ { "rom:/fonts/Xolonium20" ".font64", STYLES(menu_styles) },
-	/* XOLONIUM_40 */ { "rom:/fonts/Xolonium40" ".font64", STYLES(title_styles) },
-	/* XOLONIUM_60 */ { "rom:/fonts/Xolonium60" ".font64", STYLES(title_styles) },
+	/* DROID_SANS */ { "rom:/fonts/%s/DroidSans" ".font64", NULL, 0 },
+	/* XOLONIUM_10 */ { "rom:/fonts/%s/Xolonium10" ".font64", NULL, 0 },
+	/* XOLONIUM_14 */ { "rom:/fonts/%s/Xolonium14" ".font64", STYLES(menu_styles) },
+	/* XOLONIUM_20 */ { "rom:/fonts/%s/Xolonium20" ".font64", STYLES(menu_styles) },
+	/* XOLONIUM_40 */ { "rom:/fonts/%s/Xolonium40" ".font64", STYLES(title_styles) },
+	/* XOLONIUM_60 */ { "rom:/fonts/%s/Xolonium60" ".font64", STYLES(title_styles) },
 
 };

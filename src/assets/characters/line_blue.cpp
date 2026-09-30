@@ -8,7 +8,7 @@
 
 #define LB_FRAME(clip) "rom:/sprites/characters/line_blue/" clip "/line_blue_" clip "_f00.sprite"
 
-static const e64::character2d::AnimationClipDef line_blue_clips[LINE_BLUE_ANIM_COUNT] = {
+static const e64::sprite::Animation::ClipDef line_blue_clips[LINE_BLUE_ANIM_COUNT] = {
 
 	[LINE_BLUE_ANIM_IDLE] = { LB_FRAME("idle"), 1, 1.0f, true },
 	[LINE_BLUE_ANIM_WALK] = { LB_FRAME("walk"), 2, 6.0f, true },
@@ -17,6 +17,8 @@ static const e64::character2d::AnimationClipDef line_blue_clips[LINE_BLUE_ANIM_C
 	[LINE_BLUE_ANIM_LAND] = { LB_FRAME("idle"), 1, 4.0f, false },
 };
 
+static const e64::sprite::Animation::Def line_blue_animation = { .clip = line_blue_clips, .clip_count = LINE_BLUE_ANIM_COUNT };
+
 static const e64::character2d::AnimationSettings line_blue_animation_settings = {
 
 	.land_anim_ground = 0.25f,
@@ -24,9 +26,7 @@ static const e64::character2d::AnimationSettings line_blue_animation_settings = 
 
 static const e64::character2d::AnimationDef line_blue_animation_def = {
 
-	.clip = line_blue_clips,
 	.settings = &line_blue_animation_settings,
-	.clip_count = LINE_BLUE_ANIM_COUNT,
 
 	.idle_animation = LINE_BLUE_ANIM_IDLE,
 	.walk_animation = LINE_BLUE_ANIM_WALK,
@@ -87,7 +87,7 @@ static const e64::character2d::Def line_blue_character_def = {
 const e64::Prefab2D line_blue = {
 
 	.type = e64::prefab2d::PREFAB2D_CHARACTER,
-	.graphic = { .type = e64::Graphic::SPRITE, .sprite = { .path = LB_FRAME("idle") } },
+	.graphic = { .type = e64::Graphic::SPRITE, .sprite = { .animation_def = &line_blue_animation } },
 	.character = &line_blue_character_def,
 	.parallax = 1.0f,
 };

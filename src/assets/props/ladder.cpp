@@ -40,6 +40,6 @@ const e64::collider::Def ladder_collider = { ladder_shapes, 2 };
 
 const e64::Prefab3D ladder = {
 	.type = e64::prefab3d::PREFAB3D_PROP,
-	.model = ladder_model,
+	.mesh = { .model = ladder_model },
 	.collider = &ladder_collider,
 };

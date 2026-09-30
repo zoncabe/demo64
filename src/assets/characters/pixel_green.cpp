@@ -8,7 +8,7 @@
 
 #define PG_FRAME(clip) "rom:/sprites/characters/pixel_green/" clip "/pixel_green_" clip "_f00.sprite"
 
-static const e64::character2d::AnimationClipDef pixel_green_clips[PIXEL_GREEN_ANIM_COUNT] = {
+static const e64::sprite::Animation::ClipDef pixel_green_clips[PIXEL_GREEN_ANIM_COUNT] = {
 
 	[PIXEL_GREEN_ANIM_IDLE] = { PG_FRAME("idle"), 1, 1.0f, true },
 	[PIXEL_GREEN_ANIM_WALK] = { PG_FRAME("walk"), 2, 6.0f, true },
@@ -16,6 +16,8 @@ static const e64::character2d::AnimationClipDef pixel_green_clips[PIXEL_GREEN_AN
 	[PIXEL_GREEN_ANIM_FALL] = { PG_FRAME("jump"), 1, 1.0f, true },
 	[PIXEL_GREEN_ANIM_LAND] = { PG_FRAME("idle"), 1, 4.0f, false },
 };
+
+static const e64::sprite::Animation::Def pixel_green_animation = { .clip = pixel_green_clips, .clip_count = PIXEL_GREEN_ANIM_COUNT };
 
 static const e64::character2d::AnimationSettings pixel_green_animation_settings = {
 
@@ -25,9 +27,7 @@ static const e64::character2d::AnimationSettings pixel_green_animation_settings 
 
 static const e64::character2d::AnimationDef pixel_green_animation_def = {
 
-	.clip = pixel_green_clips,
 	.settings = &pixel_green_animation_settings,
-	.clip_count = PIXEL_GREEN_ANIM_COUNT,
 
 	.idle_animation = PIXEL_GREEN_ANIM_IDLE,
 	.walk_animation = PIXEL_GREEN_ANIM_WALK,
@@ -92,7 +92,7 @@ static const e64::character2d::Def pixel_green_character_def = {
 const e64::Prefab2D pixel_green = {
 
 	.type = e64::prefab2d::PREFAB2D_CHARACTER,
-	.graphic = { .type = e64::Graphic::SPRITE, .sprite = { .path = PG_FRAME("idle") } },
+	.graphic = { .type = e64::Graphic::SPRITE, .sprite = { .animation_def = &pixel_green_animation } },
 	.character = &pixel_green_character_def,
 	.parallax = 1.0f,
 };
